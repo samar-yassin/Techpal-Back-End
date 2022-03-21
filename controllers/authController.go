@@ -10,8 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -64,5 +66,26 @@ func Login() gin.HandlerFunc {
 		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
 
 		c.JSON(http.StatusOK, token)
+	}
+}
+
+func UploadCv() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		file, header, err := c.Request.FormFile("file")
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+		filename := header.Filename
+		out, err := os.Create("CVs/" + filename)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer out.Close()
+		_, err = io.Copy(out, file)
+		if err != nil {
+			log.Fatal(err)
+		}
+		c.JSON(http.StatusOK, gin.H{"msg": "uploaded successfully"})
 	}
 }
