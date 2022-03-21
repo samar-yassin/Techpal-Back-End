@@ -1,16 +1,26 @@
 package main
 
 import (
-	"CareerGuidance/database"
-	"CareerGuidance/routes"
-	"github.com/gofiber/fiber/v2"
+	routes "CareerGuidance/routes"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"log"
+	"os"
 )
 
 func main() {
-	database.Connect()
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
+	port := os.Getenv("Port")
+	if port == "" {
+		log.Fatal("No port Provided")
+	}
+	router := gin.New()
+	router.Use(gin.Logger())
+	routes.AuthRoutes(router)
+	routes.UserRoutes(router)
 
-	app := fiber.New()
-	routes.Register(app)
-
-	app.Listen(":8080")
+	router.Run(":" + port)
 }
