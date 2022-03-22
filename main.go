@@ -2,10 +2,11 @@ package main
 
 import (
 	routes "CareerGuidance/routes"
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
