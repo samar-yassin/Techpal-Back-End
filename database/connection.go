@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -22,18 +21,15 @@ func Connect() *mongo.Client {
 	MongoDB := os.Getenv("MONGODB_URL")
 	client, err := mongo.NewClient(options.Client().ApplyURI(MongoDB))
 	if err != nil {
-		fmt.Println("Something went wrong here!")
 		log.Fatal(err)
 	}
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	err = client.Connect(ctx)
 	if err != nil {
-		fmt.Println("No, it's here!")
 		log.Fatal(err)
 	}
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
-		fmt.Println("Okay mayber here?")
 		log.Fatal(err)
 	}
 	log.Print("connected")
