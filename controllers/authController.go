@@ -11,7 +11,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"net/mail"
 	"os"
 	"time"
 
@@ -36,13 +35,6 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	return check, msg
 }
 
-func validMailAddress(address string) (string, bool) {
-	addr, err := mail.ParseAddress(address)
-	if err != nil {
-		return "", false
-	}
-	return addr.Address, true
-}
 func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
