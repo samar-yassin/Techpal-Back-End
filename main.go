@@ -3,6 +3,7 @@ package main
 import (
 	routes "CareerGuidance/routes"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -24,11 +25,9 @@ func main() {
 	routes.UserRoutes(router)
 
 	//	integration with select_file.html to test upload cv func
-	/*
-		router.LoadHTMLGlob("template/*")
-		router.GET("/", func(c *gin.Context) {
-			c.HTML(http.StatusOK, "select_file.html", gin.H{})
-		})
-	*/
+	router.LoadHTMLGlob("template/*")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "select_file.html", gin.H{})
+	})
 	router.Run(":" + port)
 }

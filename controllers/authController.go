@@ -6,12 +6,13 @@ import (
 	"CareerGuidance/models"
 	"context"
 	"fmt"
+	"github.com/go-playground/validator/v10"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io"
 	"log"
 	"net/http"
 	"net/mail"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,7 @@ import (
 )
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
+var validate = validator.New()
 
 func VerifyPassword(userPassword string, providedPassword string) (bool, string) {
 	err := bcrypt.CompareHashAndPassword([]byte(providedPassword), []byte(userPassword))
@@ -41,7 +43,6 @@ func validMailAddress(address string) (string, bool) {
 	}
 	return addr.Address, true
 }
-
 func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -60,20 +61,21 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		if &foundUser.Email == nil {
+		if foundUser.Email == nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "User not found"})
 			return
 		}
 
-		passwordIsValid, msg := VerifyPassword(user.Password, foundUser.Password)
+		passwordIsValid, msg := VerifyPassword(*user.Password, *foundUser.Password)
 		defer cancel()
 		if passwordIsValid != true {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": msg})
 			return
 		}
 
-		token, refreshToken, _ := helpers.GenerateTokens(&foundUser.Email, &foundUser.First_Name, strconv.FormatUint(uint64(foundUser.User_id), 10))
-		helpers.UpdateTokens(token, refreshToken, strconv.FormatUint(uint64(foundUser.User_id), 10))
+		token, refreshToken, _ := helpers.GenerateTokens(foundUser.Email, foundUser.Full_name, foundUser.User_id)
+		helpers.UpdateTokens(token, refreshToken, foundUser.User_id)
+
 		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
 
 		c.JSON(http.StatusOK, token)
@@ -103,39 +105,53 @@ func UploadCv() gin.HandlerFunc {
 
 func Signup() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data map[string]string
-		if err := c.BindJSON(&data); err != nil {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		var user models.User
+		if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
 
-		addr_, ok := validMailAddress(data["email"])
-		if !(ok) {
-			c.JSON(http.StatusBadRequest, gin.H{"Error": "Please provide a valide email address"})
+		validationErr := validate.Struct(user)
+
+		if validationErr != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr})
 			return
 		}
-		password, _ := bcrypt.GenerateFromPassword([]byte(data["password"]), 15)
-		user := models.User{
-			First_Name: data["first_name"],
-			Last_Name:  data["last_name"],
-			Email:      addr_,
-			Password:   string(password),
-		}
-
-		// validate := validator.New()
-		// err := validate.Struct(user)
-		// if err != nil {
-		// 	c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
-		// 	return
-		// }
-
-		podcastResult, err := userCollection.InsertOne(context.TODO(), user)
+		count, err := userCollection.CountDocuments(ctx, bson.M{"email": user.Email})
+		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Occurred"})
 			return
 		}
-		fmt.Printf("Inserted %v document into users collection!\n", (podcastResult.InsertedID))
-		c.JSON(http.StatusOK, user)
+
+		password, err := bcrypt.GenerateFromPassword([]byte(*user.Password), 15)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+		var tempPass = string(password)
+		user.Password = &tempPass
+
+		if count > 0 {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
+			return
+		}
+
+		user.ID = primitive.NewObjectID()
+		user.User_id = user.ID.Hex()
+
+		token, _, _ := helpers.GenerateTokens(user.Email, user.Full_name, user.User_id)
+
+		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
+
+		_, err = userCollection.InsertOne(ctx, user)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred while adding user"})
+			return
+		}
+		defer cancel()
+		c.JSON(http.StatusOK, token)
 	}
 }
 

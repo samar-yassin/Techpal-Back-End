@@ -1,9 +1,11 @@
 package models
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type User struct {
-	First_Name string `json:"first_name" validate:"required,min=2,max=50"`
-	Last_Name  string `json:"last_name" validate:"required,min=2,max=50"`
-	Email      string `json:"email" validate:"required,email"`
-	Password   string `json:"-" validate:"required,min=8"`
-	User_id    uint   `json:"user_id" validate:"omitempty,uuid"`
+	ID        primitive.ObjectID `bson:"_id"`
+	Full_name *string            `json:"full_name" validate:"required,min=2,max=50"`
+	Email     *string            `json:"email" validate:"email,required"`
+	Password  *string            `json:"password" validate:"required,min=8"`
+	User_id   string
 }

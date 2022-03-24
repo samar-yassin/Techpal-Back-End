@@ -2,15 +2,13 @@ package database
 
 import (
 	"context"
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
 	"os"
 	"time"
-
-	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
-
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Connect() *mongo.Client {
@@ -39,6 +37,6 @@ func Connect() *mongo.Client {
 var Client *mongo.Client = Connect()
 
 func OpenCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database("users").Collection(collectionName)
+	var collection *mongo.Collection = client.Database("career").Collection(collectionName)
 	return collection
 }
