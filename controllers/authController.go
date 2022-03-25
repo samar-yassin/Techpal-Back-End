@@ -71,6 +71,8 @@ func Login() gin.HandlerFunc {
 		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
 
 		c.JSON(http.StatusOK, token)
+		c.JSON(http.StatusOK, user)
+
 	}
 }
 
@@ -113,7 +115,7 @@ func Signup() gin.HandlerFunc {
 		count, err := userCollection.CountDocuments(ctx, bson.M{"email": user.Email})
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error Occurred"})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
 			return
 		}
 
@@ -144,6 +146,8 @@ func Signup() gin.HandlerFunc {
 		}
 		defer cancel()
 		c.JSON(http.StatusOK, token)
+		c.JSON(http.StatusOK, user)
+
 	}
 }
 

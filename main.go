@@ -23,6 +23,7 @@ func main() {
 	router.Use(gin.Logger())
 	routes.AuthRoutes(router)
 	routes.UserRoutes(router)
+	routes.AdminRoutes(router)
 
 	//	integration with select_file.html to test upload cv func
 	router.LoadHTMLGlob("template/*")
