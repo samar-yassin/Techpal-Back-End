@@ -11,6 +11,6 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	//incomingRoutes.GET("/users", controller.GetUsers())
 	incomingRoutes.GET("api/createprofile/:user_id", controller.CreateProfile())
 	incomingRoutes.POST("api/switchprofile/:user_id", controller.SwitchProfile())
+	incomingRoutes.GET("api/deleteprofile/:user_id", controller.DeleteProfile())
 	incomingRoutes.GET("api/user", controller.User())
-
 }

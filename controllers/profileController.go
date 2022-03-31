@@ -4,13 +4,15 @@ import (
 	"CareerGuidance/database"
 	"CareerGuidance/models"
 	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
-	"net/http"
-	"time"
 )
 
 var ProfilesCollection *mongo.Collection = database.OpenCollection(database.Client, "profiles")
@@ -24,7 +26,6 @@ func CreateProfile() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-
 		validationErr := validate.Struct(profile)
 
 		if validationErr != nil {
@@ -87,5 +88,29 @@ func SwitchProfile() gin.HandlerFunc {
 		user.Current_profile = profile.Profile_id
 
 		c.JSON(http.StatusOK, profile)
+	}
+}
+
+func DeleteProfile() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var profileId map[string]string
+		if err := c.BindJSON(&profileId); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		result, err := ProfilesCollection.DeleteOne(ctx, bson.M{"profile_id": profileId["profile_id"]})
+		if err != nil {
+			log.Fatal(err)
+		}
+		var message string
+		fmt.Println(result.DeletedCount)
+		if result.DeletedCount < 1 {
+			message = profileId["profile_id"] + " doesn't exist."
+		} else {
+			message = profileId["profile_id"] + " deleted successffuly."
+		}
+		c.JSON(http.StatusOK, message)
 	}
 }

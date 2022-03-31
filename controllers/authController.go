@@ -6,13 +6,14 @@ import (
 	"CareerGuidance/models"
 	"context"
 	"fmt"
-	"github.com/go-playground/validator/v10"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/go-playground/validator/v10"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -71,7 +72,7 @@ func Login() gin.HandlerFunc {
 		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
 
 		c.JSON(http.StatusOK, token)
-		c.JSON(http.StatusOK, user)
+		c.JSON(http.StatusOK, foundUser)
 
 	}
 }

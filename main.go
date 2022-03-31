@@ -19,6 +19,7 @@ func main() {
 	if port == "" {
 		log.Fatal("No port Provided")
 	}
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.Use(gin.Logger())
 	routes.AuthRoutes(router)
