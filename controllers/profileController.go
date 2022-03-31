@@ -126,7 +126,6 @@ func GetCurrentProfile() gin.HandlerFunc {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(user.Current_profile)
 		c.JSON(http.StatusOK, user.Current_profile)
 	}
 }
