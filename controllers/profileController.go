@@ -129,3 +129,24 @@ func GetCurrentProfile() gin.HandlerFunc {
 		c.JSON(http.StatusOK, user.Current_profile)
 	}
 }
+
+func GetAllProfiles() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := ProfilesCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer cursor.Close(ctx)
+		var profiles []models.Profile
+		for cursor.Next(ctx) {
+			var profile models.Profile
+			if err = cursor.Decode(&profile); err != nil {
+				log.Fatal(err)
+			}
+			profiles = append(profiles, profile)
+		}
+		c.JSON(http.StatusOK, profiles)
+	}
+}
