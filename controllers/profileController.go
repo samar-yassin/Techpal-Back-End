@@ -68,12 +68,10 @@ func SwitchProfile() gin.HandlerFunc {
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		var profile models.Profile
-		err := userCollection.FindOne(ctx, bson.M{"profile_id": profileId}).Decode(&profile)
-		log.Println(userId)
-		log.Println(profileId["profile_id"])
+		err := ProfilesCollection.FindOne(ctx, bson.M{"profile_id": profileId["profile_id"]}).Decode(&profile)
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 			return
 		}
 
@@ -81,11 +79,9 @@ func SwitchProfile() gin.HandlerFunc {
 		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profileId["profile_id"]}}).Decode(&user)
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 			return
 		}
-
-		user.Current_profile = profile.Profile_id
 
 		c.JSON(http.StatusOK, profile)
 	}

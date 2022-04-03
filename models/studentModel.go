@@ -10,7 +10,7 @@ type User struct {
 	Phone           *string           `json:"phone"`
 	Address         *string           `json:"address"`
 	Password        *string           `json:"password" validate:"required,min=8"`
-	User_type       *string           `json:"user_type" validate:"required,eq=student"`
+	User_type       *string           `json:"user_type" validate:"required,eq=student|eq=mentor"`
 	Current_profile string            `json:"current_profile"`
 	University      *string           `json:"university"`
 	Websites        map[string]string `json:"websites"`
