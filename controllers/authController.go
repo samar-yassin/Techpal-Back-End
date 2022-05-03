@@ -22,6 +22,7 @@ import (
 )
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
+var metorCollection *mongo.Collection = database.OpenCollection(database.Client, "mentors")
 var validate = validator.New()
 
 func VerifyPassword(userPassword string, providedPassword string) (bool, string) {
@@ -79,13 +80,28 @@ func Login() gin.HandlerFunc {
 
 func UploadCv() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		file, header, err := c.Request.FormFile("file")
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+
+		var name string
+		var mentor models.Mentor
+		name = c.PostForm("name")
+		if name == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"Error1": "name required"})
 			return
 		}
-		filename := header.Filename
-		out, err := os.Create("CVs/" + filename)
+		file, _, err := c.Request.FormFile("file")
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error2": err.Error()})
+			return
+		}
+		//filename := header.Filename
+		mentor.Full_name = &name
+
+		mentor.ID = primitive.NewObjectID()
+		mentor.User_id = mentor.ID.Hex()
+
+		out, err := os.Create("CVs/" + name)
+
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -94,7 +110,14 @@ func UploadCv() gin.HandlerFunc {
 		if err != nil {
 			log.Fatal(err)
 		}
-		c.JSON(http.StatusOK, gin.H{"msg": "uploaded successfully"})
+		_, err = metorCollection.InsertOne(ctx, mentor)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred while adding user"})
+			return
+		}
+		defer cancel()
+		c.JSON(http.StatusOK, mentor.User_id)
+
 	}
 }
 

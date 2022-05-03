@@ -2,13 +2,19 @@ package main
 
 import (
 	routes "CareerGuidance/routes"
+	"github.com/gin-contrib/cors"
+	_ "github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
 
 func main() {
 	err := godotenv.Load(".env")
@@ -19,13 +25,15 @@ func main() {
 	if port == "" {
 		log.Fatal("No port Provided")
 	}
+
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
+	router.Use(cors.Default())
+
 	router.Use(gin.Logger())
 	routes.AuthRoutes(router)
 	routes.UserRoutes(router)
 	routes.AdminRoutes(router)
-
 	//	integration with select_file.html to test upload cv func
 	router.LoadHTMLGlob("template/*")
 	router.GET("/", func(c *gin.Context) {
