@@ -8,8 +8,10 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -78,29 +80,65 @@ func Login() gin.HandlerFunc {
 	}
 }
 
-func UploadCv() gin.HandlerFunc {
+func ApplyMentor() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 
-		var name string
+		var full_name string
+		var email string
+		var calendly_id string
+		var user_type string
+
 		var mentor models.Mentor
-		name = c.PostForm("name")
-		if name == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"Error1": "name required"})
-			return
-		}
+
+		full_name = c.PostForm("full_name")
+		email = c.PostForm("email")
+		full_name = c.PostForm("calendly_id")
 		file, _, err := c.Request.FormFile("file")
+		mentor.Full_name = &full_name
+		mentor.Email = &email
+		rand.Seed(time.Now().UnixNano())
+		chars := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+			"abcdefghijklmnopqrstuvwxyz" +
+			"0123456789" +
+			"#*$%&!")
+		length := 8
+		var b strings.Builder
+		for i := 0; i < length; i++ {
+			b.WriteRune(chars[rand.Intn(len(chars))])
+		}
+		password := b.String()
+		mentor.Password = &password
+		user_type = "mentor"
+		mentor.User_type = &user_type
+		mentor.Calendly_id = &calendly_id
+
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"Error2": err.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"ErrorFile": err.Error()})
 			return
 		}
-		//filename := header.Filename
-		mentor.Full_name = &name
+
+		validationErr := validate.Struct(mentor)
+
+		if validationErr != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr})
+			return
+		}
+		count, err := userCollection.CountDocuments(ctx, bson.M{"email": mentor.Email})
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
+			return
+		}
+		if count > 0 {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
+			return
+		}
 
 		mentor.ID = primitive.NewObjectID()
 		mentor.User_id = mentor.ID.Hex()
-
-		out, err := os.Create("CVs/" + name)
+		var filename = email + ".pdf"
+		out, err := os.Create("CVs/" + filename)
 
 		if err != nil {
 			log.Fatal(err)

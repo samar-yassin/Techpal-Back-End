@@ -9,7 +9,7 @@ type User struct {
 	Email           *string           `json:"email" validate:"email,required"`
 	Phone           *string           `json:"phone"`
 	Address         *string           `json:"address"`
-	Password        *string           `json:"password" validate:"required,min=8"`
+	Password        *string           `json:"password" validate:"required"`
 	User_type       *string           `json:"user_type" validate:"required,eq=student|eq=mentor"`
 	Current_profile string            `json:"current_profile"`
 	University      *string           `json:"university"`
