@@ -15,4 +15,5 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.GET("api/getcurrentprofile/:user_id", controller.GetCurrentProfile())
 	incomingRoutes.GET("api/getallprofiles", controller.GetAllProfiles())
 	incomingRoutes.GET("api/user", controller.User())
+	incomingRoutes.GET("api/getuser/:user_id", controller.GetUser())
 }

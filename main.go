@@ -6,15 +6,11 @@ import (
 	_ "github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-
 	"log"
 	"net/http"
 	"os"
 )
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-}
 
 func main() {
 	err := godotenv.Load(".env")

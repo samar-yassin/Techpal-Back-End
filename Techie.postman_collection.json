@@ -148,6 +148,22 @@
 						"header": []
 					},
 					"response": []
+				},
+				{
+					"name": "Create mentor",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -195,7 +211,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "user",
 					"request": {
 						"method": "GET",
 						"header": []
@@ -203,6 +219,29 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "164.90.149.69:3000"
+		},
+		{
+			"key": "local",
+			"value": "localhost:8080"
 		}
 	]
 }
