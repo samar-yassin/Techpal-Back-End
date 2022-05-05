@@ -93,7 +93,7 @@ func ApplyMentor() gin.HandlerFunc {
 
 		full_name = c.PostForm("full_name")
 		email = c.PostForm("email")
-		full_name = c.PostForm("calendly_id")
+		calendly_id = c.PostForm("calendly_id")
 		file, _, err := c.Request.FormFile("file")
 		mentor.Full_name = &full_name
 		mentor.Email = &email
