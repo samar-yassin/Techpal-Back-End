@@ -23,15 +23,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://164.90.149.69:3000/api/login",
+							"raw": "http://{{local}}/api/login",
 							"protocol": "http",
 							"host": [
-								"164",
-								"90",
-								"149",
-								"69"
+								"{{local}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"login"
@@ -47,7 +43,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"full_name\":\"usertest\",\r\n    \"email\":\"t11@test.com\",\r\n    \"password\":\"1343654243\",\r\n    \"user_type\":\"student\"\r\n}",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"password\":\"1\",\r\n    \"user_type\":\"student\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -55,15 +51,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://164.90.149.69:3000/api/signup",
+							"raw": "http://127.0.0.1:81/api/signup",
 							"protocol": "http",
 							"host": [
-								"164",
-								"90",
-								"149",
-								"69"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
-							"port": "3000",
+							"port": "81",
 							"path": [
 								"api",
 								"signup"
@@ -87,15 +83,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://164.90.149.69:3000/api/upload",
+							"raw": "http://{{local}}/api/upload",
 							"protocol": "http",
 							"host": [
-								"164",
-								"90",
-								"149",
-								"69"
+								"{{local}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"upload"
@@ -124,15 +116,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://164.90.149.69:3000/api/addTrack",
+							"raw": "http://{{local}}/api/addTrack",
 							"protocol": "http",
 							"host": [
-								"164",
-								"90",
-								"149",
-								"69"
+								"{{local}}"
 							],
-							"port": "3000",
 							"path": [
 								"api",
 								"addTrack"
@@ -145,7 +133,22 @@
 					"name": "get all tracks",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getalltracks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getalltracks"
+							]
+						}
 					},
 					"response": []
 				},
@@ -160,8 +163,32 @@
 				{
 					"name": "New Request",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/acceptmentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"acceptmentor"
+							]
+						}
 					},
 					"response": []
 				}
@@ -174,7 +201,19 @@
 					"name": "get current profile",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getcurrentprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getcurrentprofile",
+								"$user_id$"
+							]
+						}
 					},
 					"response": []
 				},
@@ -182,31 +221,111 @@
 					"name": "get all profiles",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getallprofiles",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getallprofiles"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "create profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"track_id\":\"625fb9a6f83831a653adbb12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/createprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"createprofile",
+								"$user_id$"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "switch profile",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/switchprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"switchprofile",
+								"$user_id$"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "delete profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/deleteprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"deleteprofile",
+								"$user_id$"
+							]
+						}
 					},
 					"response": []
 				},
@@ -214,7 +333,25 @@
 					"name": "user",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://{{local}}/api/user",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
 					},
 					"response": []
 				}
@@ -227,7 +364,23 @@
 					"name": "Get user",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getuser/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getuser",
+								"62731747f166a45c475dbb9a"
+							]
+						}
 					},
 					"response": []
 				}
