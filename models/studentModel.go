@@ -2,7 +2,7 @@ package models
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
-type User struct {
+type Student struct {
 	ID              primitive.ObjectID `bson:"_id"`
 	User_id         string
 	Full_name       *string           `json:"full_name" validate:"required,min=2,max=50"`

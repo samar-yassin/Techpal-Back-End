@@ -55,7 +55,7 @@ func AcceptMentor() gin.HandlerFunc {
 			return
 		}
 
-		err := metorCollection.FindOne(ctx, bson.M{"email": email["email"]}).Decode(&mentor)
+		err := userCollection.FindOneAndUpdate(ctx, bson.M{"email": email["email"]}, bson.M{"$set": bson.M{"accepted": true}}).Decode(&mentor)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "email or password is incorrect"})
@@ -63,7 +63,7 @@ func AcceptMentor() gin.HandlerFunc {
 		}
 
 		if mentor.Email == nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"Error": "User not found"})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "mentor not found"})
 			return
 		}
 
@@ -71,12 +71,12 @@ func AcceptMentor() gin.HandlerFunc {
 		body := "Your password is : " + *mentor.Password
 
 		msg := gomail.NewMessage()
-		msg.SetHeader("From", "samareeyassin155@gmail.co")
-		msg.SetHeader("To", "samar.ashraf.yassin@gmail.com")
+		msg.SetHeader("From", "from@gmail.com")
+		msg.SetHeader("To", *mentor.Email)
 		msg.SetHeader("Subject", subject)
 		msg.SetBody("text/html", body)
 
-		n := gomail.NewDialer("smtp.gmail.com", 587, "samareeyassin155@gmail.com", "oieaytmnflejjquz")
+		n := gomail.NewDialer("smtp.gmail.com", 587, "from@gmail.com", "password")
 
 		// Send the email
 		if err := n.DialAndSend(msg); err != nil {

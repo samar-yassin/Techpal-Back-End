@@ -10,4 +10,5 @@ type Mentor struct {
 	Password    *string `json:"password" validate:"required"`
 	User_type   *string `json:"user_type" validate:"required,eq=mentor"`
 	Calendly_id *string `json:"calendly_id" validate:"required"`
+	Accepted    bool
 }

@@ -37,7 +37,7 @@ func CreateProfile() gin.HandlerFunc {
 		profile.Profile_id = profile.ID.Hex()
 		profile.User_id = userId
 
-		var user models.User
+		var user models.Student
 		err := userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profile.Profile_id}}).Decode(&user)
 		defer cancel()
 		if err != nil {
@@ -75,7 +75,7 @@ func SwitchProfile() gin.HandlerFunc {
 			return
 		}
 
-		var user models.User
+		var user models.Student
 		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profileId["profile_id"]}}).Decode(&user)
 		defer cancel()
 		if err != nil {
@@ -117,7 +117,7 @@ func GetCurrentProfile() gin.HandlerFunc {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		var user models.User
+		var user models.Student
 		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
 		if err != nil {
 			log.Fatal(err)
