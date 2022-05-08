@@ -35,3 +35,20 @@ func GetAllTracks() gin.HandlerFunc {
 		c.JSON(http.StatusOK, tracks)
 	}
 }
+
+func GetTrack() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		trackId := c.Param("track_id")
+		var track models.Track
+		err := TracksCollection.FindOne(ctx, bson.M{"track_id": trackId}).Decode(&track)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, track)
+
+	}
+}
