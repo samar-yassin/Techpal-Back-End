@@ -1,0 +1,501 @@
+{
+	"info": {
+		"_postman_id": "fdd61e01-69a9-45c2-b50f-b004cf7cf773",
+		"name": "Techpal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\",\r\n    \"user_type\":\"student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/signup",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadCV",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/upload",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "add track",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/addTrack",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"addTrack"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tracks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getalltracks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getalltracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accept mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"tk@tk.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/acceptmentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"acceptmentor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"i don't like him\",\r\n    \"session_id\":\"15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/reportmentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"reportmentor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "student",
+			"item": [
+				{
+					"name": "get current profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getcurrentprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getcurrentprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getallprofiles",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getallprofiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"track_id\":\"625fb9a6f83831a653adbb12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/createprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"createprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "switch profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/switchprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"switchprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/deleteprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"deleteprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getuser/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getuser",
+								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"phone\":\"123\",\r\n    \"address\":\"\",\r\n    \"university\":\"helwan\",\r\n    \"websites\":{\"linkedin\":\"http://linkedin\",\"github\":\"http://github\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatestudent/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatestudent",
+								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"calendly_id\":\"http:/id\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatementor/62759f4835a7b60f5fa7ec16",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatementor",
+								"62759f4835a7b60f5fa7ec16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\":\"111\",\r\n    \"new_password\":\"44\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/changepassword/62770916796634716862c25d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"changepassword",
+								"62770916796634716862c25d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "164.90.149.69:3000"
+		},
+		{
+			"key": "local",
+			"value": "localhost:8080"
+		}
+	]
+}
