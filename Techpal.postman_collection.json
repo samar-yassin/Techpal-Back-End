@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "fdd61e01-69a9-45c2-b50f-b004cf7cf773",
-		"name": "Techie",
+		"name": "Techpal",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"test11@test.com\",\r\n    \"password\":\"1343654243\"\r\n}",
+							"raw": "{\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,11 +23,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{local}}/api/login",
+							"raw": "http://127.0.0.1:81/api/login",
 							"protocol": "http",
 							"host": [
-								"{{local}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "81",
 							"path": [
 								"api",
 								"login"
@@ -43,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"password\":\"1\",\r\n    \"user_type\":\"student\"\r\n}",
+							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\",\r\n    \"user_type\":\"student\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -153,21 +157,13 @@
 					"response": []
 				},
 				{
-					"name": "Create mentor",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
+					"name": "accept mentor",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\":\"tk@tk.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -187,6 +183,38 @@
 							"path": [
 								"api",
 								"acceptmentor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"i don't like him\",\r\n    \"session_id\":\"15\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/reportmentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"reportmentor"
 							]
 						}
 					},
@@ -328,32 +356,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "user",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "http://{{local}}/api/user",
-							"protocol": "http",
-							"host": [
-								"{{local}}"
-							],
-							"path": [
-								"api",
-								"user"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -379,6 +381,105 @@
 								"api",
 								"getuser",
 								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"phone\":\"123\",\r\n    \"address\":\"\",\r\n    \"university\":\"helwan\",\r\n    \"websites\":{\"linkedin\":\"http://linkedin\",\"github\":\"http://github\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatestudent/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatestudent",
+								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"calendly_id\":\"http:/id\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatementor/62759f4835a7b60f5fa7ec16",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatementor",
+								"62759f4835a7b60f5fa7ec16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\":\"111\",\r\n    \"new_password\":\"44\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/changepassword/62770916796634716862c25d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"changepassword",
+								"62770916796634716862c25d"
 							]
 						}
 					},

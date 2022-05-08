@@ -24,13 +24,13 @@ import (
 )
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
-var metorCollection *mongo.Collection = database.OpenCollection(database.Client, "mentors")
 var validate = validator.New()
 
 func VerifyPassword(userPassword string, providedPassword string) (bool, string) {
-	err := bcrypt.CompareHashAndPassword([]byte(providedPassword), []byte(userPassword))
+	err := bcrypt.CompareHashAndPassword([]byte(userPassword), []byte(providedPassword))
 	check := true
 	msg := ""
+	log.Println(err)
 	if err != nil {
 		msg = fmt.Sprintf("Email or Password is incorrect")
 		check = false
@@ -48,7 +48,6 @@ func Login() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-		log.Println("email ", &user.Email)
 
 		err := userCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&foundUser)
 		defer cancel()
@@ -58,11 +57,12 @@ func Login() gin.HandlerFunc {
 		}
 
 		if foundUser.Email == nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"Error": "User not found"})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Student not found"})
 			return
 		}
 
-		passwordIsValid, msg := VerifyPassword(*user.Password, *foundUser.Password)
+		passwordIsValid, msg := VerifyPassword(*foundUser.Password, *user.Password)
+
 		defer cancel()
 		if passwordIsValid != true {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": msg})
@@ -112,6 +112,7 @@ func ApplyMentor() gin.HandlerFunc {
 		user_type = "mentor"
 		mentor.User_type = &user_type
 		mentor.Calendly_id = &calendly_id
+		mentor.Accepted = false
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"ErrorFile": err.Error()})
@@ -148,7 +149,7 @@ func ApplyMentor() gin.HandlerFunc {
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = metorCollection.InsertOne(ctx, mentor)
+		_, err = userCollection.InsertOne(ctx, mentor)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred while adding user"})
 			return
@@ -162,7 +163,7 @@ func ApplyMentor() gin.HandlerFunc {
 func Signup() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-		var user models.User
+		var user models.Student
 		if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
