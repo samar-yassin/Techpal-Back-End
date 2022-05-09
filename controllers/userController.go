@@ -3,10 +3,11 @@ package controllers
 import (
 	"CareerGuidance/models"
 	"context"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -39,7 +40,7 @@ func UpdateStudent() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-		err := userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"full_name": student.Full_name, "email": student.Email, "phone": student.Phone, "address": student.Address, "university": student.University, "websites": student.Websites}}).Decode(&student)
+		err := userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"full_name": student.Full_name, "email": student.Email, "phone": student.Phone, "address": student.Address, "university": student.University, "websites": student.Websites, "about": student.About, "major": student.Major, "degree": student.Degree, "start_year": student.StartYear, "end_year": student.EndYear}}).Decode(&student)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
