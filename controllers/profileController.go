@@ -128,8 +128,16 @@ func GetCurrentProfile() gin.HandlerFunc {
 
 func GetAllProfiles() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
+		var profile models.Profile
+		err := ProfilesCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&profile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		c.JSON(http.StatusOK, profile)
 		cursor, err := ProfilesCollection.Find(ctx, bson.M{})
 		if err != nil {
 			log.Fatal(err)
@@ -141,7 +149,9 @@ func GetAllProfiles() gin.HandlerFunc {
 			if err = cursor.Decode(&profile); err != nil {
 				log.Fatal(err)
 			}
-			profiles = append(profiles, profile)
+			if profile.User_id == userId {
+				profiles = append(profiles, profile)
+			}
 		}
 		c.JSON(http.StatusOK, profiles)
 	}
