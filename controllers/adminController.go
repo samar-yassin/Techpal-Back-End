@@ -4,6 +4,7 @@ import (
 	"CareerGuidance/database"
 	"CareerGuidance/models"
 	"context"
+	"log"
 	"net/http"
 	"time"
 
@@ -15,6 +16,7 @@ import (
 )
 
 var TrackCollection *mongo.Collection = database.OpenCollection(database.Client, "tracks")
+var MentorsCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
 
 func AddTrack() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -83,5 +85,51 @@ func AcceptMentor() gin.HandlerFunc {
 			panic(err)
 		}
 
+	}
+}
+
+func GetAcceptedMentors() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := MentorsCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer cursor.Close(ctx)
+		var mentors []models.Mentor
+		for cursor.Next(ctx) {
+			var user models.Mentor
+			if err = cursor.Decode(&user); err != nil {
+				log.Fatal(err)
+			}
+			if *user.User_type == "mentor" && user.Accepted {
+				mentors = append(mentors, user)
+			}
+		}
+		c.JSON(http.StatusOK, mentors)
+	}
+}
+
+func GetNotAcceptedMentors() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := MentorsCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer cursor.Close(ctx)
+		var mentors []models.Mentor
+		for cursor.Next(ctx) {
+			var user models.Mentor
+			if err = cursor.Decode(&user); err != nil {
+				log.Fatal(err)
+			}
+			if *user.User_type == "mentor" && !user.Accepted {
+				mentors = append(mentors, user)
+			}
+		}
+		c.JSON(http.StatusOK, mentors)
 	}
 }
