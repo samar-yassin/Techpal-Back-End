@@ -131,13 +131,6 @@ func GetAllProfiles() gin.HandlerFunc {
 		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-
-		var profile models.Profile
-		err := ProfilesCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&profile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		c.JSON(http.StatusOK, profile)
 		cursor, err := ProfilesCollection.Find(ctx, bson.M{})
 		if err != nil {
 			log.Fatal(err)
