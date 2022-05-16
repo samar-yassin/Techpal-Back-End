@@ -11,7 +11,7 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	//incomingRoutes.GET("/users", controller.GetUsers())
 	incomingRoutes.POST("api/createprofile/:user_id", controller.CreateProfile())
 	incomingRoutes.POST("api/switchprofile/:user_id", controller.SwitchProfile())
-	incomingRoutes.GET("api/deleteprofile/:user_id", controller.DeleteProfile())
+	incomingRoutes.DELETE("api/deleteprofile/:user_id", controller.DeleteProfile())
 	incomingRoutes.GET("api/getcurrentprofile/:user_id", controller.GetCurrentProfile())
 	incomingRoutes.GET("api/user", controller.User())
 	incomingRoutes.GET("api/getuser/:user_id", controller.GetUser())
@@ -19,5 +19,5 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/updatementor/:user_id", controller.UpdateMentor())
 	incomingRoutes.POST("api/changepassword/:user_id", controller.ChangePassword())
 	incomingRoutes.GET("api/getallprofiles/:user_id", controller.GetAllProfiles())
-	incomingRoutes.GET("api/removementor/:user_id", controller.RemoveMentor())
+	incomingRoutes.DELETE("api/removementor/:user_id", controller.RemoveMentor())
 }
