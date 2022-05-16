@@ -1,12 +1,19 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Student struct {
 	ID              primitive.ObjectID `bson:"_id"`
 	User_id         string
 	Full_name       *string           `json:"full_name" validate:"required,min=2,max=50"`
 	Email           *string           `json:"email" validate:"email,required"`
+	About           *string           `json:"about"`
+	Degree          *string           `json:"degree"`
+	Major           *string           `json:"major"`
+	StartYear       *string           `json:"start_year"`
+	EndYear         *string           `json:"end_year"`
 	Phone           *string           `json:"phone"`
 	Address         *string           `json:"address"`
 	Password        *string           `json:"password" validate:"required"`

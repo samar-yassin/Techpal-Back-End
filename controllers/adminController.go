@@ -133,3 +133,22 @@ func GetNotAcceptedMentors() gin.HandlerFunc {
 		c.JSON(http.StatusOK, mentors)
 	}
 }
+
+func RemoveMentor() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userId := c.Param("user_id")
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		result, err := MentorsCollection.DeleteOne(ctx, bson.M{"user_id": userId})
+		if err != nil {
+			log.Fatal(err)
+		}
+		var message string
+		if result.DeletedCount < 1 {
+			message = userId + " doesn't exist."
+		} else {
+			message = userId + " deleted successffuly."
+		}
+		c.JSON(http.StatusOK, message)
+	}
+}
