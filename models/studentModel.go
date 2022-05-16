@@ -12,8 +12,8 @@ type Student struct {
 	About           *string           `json:"about"`
 	Degree          *string           `json:"degree"`
 	Major           *string           `json:"major"`
-	StartYear       *string           `json:"start_year"`
-	EndYear         *string           `json:"end_year"`
+	Start_Year       *string           `json:"start_year"`
+	End_Year         *string           `json:"end_year"`
 	Phone           *string           `json:"phone"`
 	Address         *string           `json:"address"`
 	Password        *string           `json:"password" validate:"required"`
