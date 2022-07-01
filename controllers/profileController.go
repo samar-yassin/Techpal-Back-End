@@ -117,10 +117,16 @@ func GetCurrentProfile() gin.HandlerFunc {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		var profile models.Profile
-		err := ProfilesCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&profile)
+		var user models.Student
+		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		var profile models.Profile
+		err2 := ProfilesCollection.FindOne(ctx, bson.M{"profile_id": user.Current_profile}).Decode(&profile)
+		if err2 != nil {
+			log.Fatal(err2)
 		}
 		c.JSON(http.StatusOK, profile)
 	}
