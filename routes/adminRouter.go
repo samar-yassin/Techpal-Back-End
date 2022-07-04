@@ -10,6 +10,7 @@ func AdminRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/addTrack", controller.AddTrack())
 	incomingRoutes.GET("api/gettrack/:track_id", controller.GetTrack())
 	incomingRoutes.GET("api/getalltracks", controller.GetAllTracks())
+	incomingRoutes.DELETE("api/deletetrack", controller.DeleteTrack())
 	incomingRoutes.POST("api/acceptmentor", controller.AcceptMentor())
 	incomingRoutes.POST("api/reportmentor", controller.ReportMentor())
 	incomingRoutes.GET("api/getacceptedmentors", controller.GetAcceptedMentors())
