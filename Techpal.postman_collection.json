@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "fdd61e01-69a9-45c2-b50f-b004cf7cf773",
 		"name": "Techpal",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17521473"
 	},
 	"item": [
 		{
@@ -73,13 +74,13 @@
 					"response": []
 				},
 				{
-					"name": "uploadCV",
+					"name": "applymentor",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tnew@test.com\",\r\n    \"calendly_id\": \"id\",\r\n    \"resume\":\"http://link\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,14 +88,18 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{local}}/api/upload",
+							"raw": "http://127.0.0.1:81/api/applymentor",
 							"protocol": "http",
 							"host": [
-								"{{local}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "81",
 							"path": [
 								"api",
-								"upload"
+								"applymentor"
 							]
 						}
 					},
@@ -266,15 +271,12 @@
 				},
 				{
 					"name": "create profile",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"track_id\":\"625fb9a6f83831a653adbb12\"\r\n}",
+							"raw": "{\r\n    \"track_id\":\"62c2461ed9e0f15fb31936d8\",\r\n    \"completed_skills\" : [\"Networking\",\"Hacking\",\"Being Cool\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,15 +284,19 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{local}}/api/createprofile/$user_id$",
+							"raw": "http://127.0.0.1:81/api/createprofile/6271d2da16abee6cdd13f89c",
 							"protocol": "http",
 							"host": [
-								"{{local}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "81",
 							"path": [
 								"api",
 								"createprofile",
-								"$user_id$"
+								"6271d2da16abee6cdd13f89c"
 							]
 						}
 					},
@@ -426,7 +432,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"calendly_id\":\"http:/id\"\r\n}",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"calendly_id\":\"http:/id\",\r\n    \"about\":\"I'm cool gedan\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -434,7 +440,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/updatementor/62759f4835a7b60f5fa7ec16",
+							"raw": "http://127.0.0.1:81/api/updatementor/62733d6a67fcd86b69cf7c30",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -446,7 +452,7 @@
 							"path": [
 								"api",
 								"updatementor",
-								"62759f4835a7b60f5fa7ec16"
+								"62733d6a67fcd86b69cf7c30"
 							]
 						}
 					},
