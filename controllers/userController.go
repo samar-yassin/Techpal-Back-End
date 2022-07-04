@@ -61,7 +61,7 @@ func UpdateMentor() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-		err := userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"full_name": mentor.Full_name, "email": mentor.Email, "calendly_id": mentor.Calendly_id}}).Decode(&mentor)
+		err := mentorsCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"full_name": mentor.Full_name, "email": mentor.Email, "calendly_id": mentor.Calendly_id, "about": mentor.About}}).Decode(&mentor)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})

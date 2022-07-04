@@ -26,6 +26,7 @@ func CreateProfile() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
+
 		validationErr := validate.Struct(profile)
 
 		if validationErr != nil {
@@ -37,8 +38,28 @@ func CreateProfile() gin.HandlerFunc {
 		profile.Profile_id = profile.ID.Hex()
 		profile.User_id = userId
 
+		var track models.Track
+		err := TracksCollection.FindOne(ctx, bson.M{"track_id": profile.Track_id}).Decode(&track)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "No track found"})
+			return
+		}
+
+		var points int
+		points = 0
+		//var lvl int
+		//lvl = 0
+		for _, skill := range profile.Completed_skills {
+			points += track.Skills[skill]
+			//lvl++
+		}
+
+		profile.Points = points
+		//profile.Level = lvl
+
 		var user models.Student
-		err := userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profile.Profile_id}}).Decode(&user)
+		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profile.Profile_id}}).Decode(&user)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

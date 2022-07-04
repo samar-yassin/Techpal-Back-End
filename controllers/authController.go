@@ -6,11 +6,9 @@ import (
 	"CareerGuidance/models"
 	"context"
 	"fmt"
-	"io"
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
@@ -24,6 +22,8 @@ import (
 )
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
+var mentorsCollection *mongo.Collection = database.OpenCollection(database.Client, "mentors")
+
 var validate = validator.New()
 
 func VerifyPassword(userPassword string, providedPassword string) (bool, string) {
@@ -83,20 +83,12 @@ func Login() gin.HandlerFunc {
 func ApplyMentor() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
-		var full_name string
-		var email string
-		var calendly_id string
-		var user_type string
-
 		var mentor models.Mentor
+		if err := c.BindJSON(&mentor); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
 
-		full_name = c.PostForm("full_name")
-		email = c.PostForm("email")
-		calendly_id = c.PostForm("calendly_id")
-		file, _, err := c.Request.FormFile("file")
-		mentor.Full_name = &full_name
-		mentor.Email = &email
 		rand.Seed(time.Now().UnixNano())
 		chars := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
 			"abcdefghijklmnopqrstuvwxyz" +
@@ -109,15 +101,8 @@ func ApplyMentor() gin.HandlerFunc {
 		}
 		password := b.String()
 		mentor.Password = &password
-		user_type = "mentor"
+		var user_type = "mentor"
 		mentor.User_type = &user_type
-		mentor.Calendly_id = &calendly_id
-		mentor.Accepted = false
-
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"ErrorFile": err.Error()})
-			return
-		}
 
 		validationErr := validate.Struct(mentor)
 
@@ -125,7 +110,7 @@ func ApplyMentor() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr})
 			return
 		}
-		count, err := userCollection.CountDocuments(ctx, bson.M{"email": mentor.Email})
+		count, err := mentorsCollection.CountDocuments(ctx, bson.M{"email": mentor.Email})
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
@@ -138,18 +123,8 @@ func ApplyMentor() gin.HandlerFunc {
 
 		mentor.ID = primitive.NewObjectID()
 		mentor.User_id = mentor.ID.Hex()
-		var filename = email + ".pdf"
-		out, err := os.Create("CVs/" + filename)
 
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer out.Close()
-		_, err = io.Copy(out, file)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = userCollection.InsertOne(ctx, mentor)
+		_, err = mentorsCollection.InsertOne(ctx, mentor)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred while adding user"})
 			return
