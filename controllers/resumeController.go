@@ -54,7 +54,7 @@ func GetResume() gin.HandlerFunc {
 		var resume models.Resume
 		err := ResumesCollection.FindOne(ctx, bson.M{"profile_id": profileId}).Decode(&resume)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 
 		c.JSON(http.StatusOK, resume)
