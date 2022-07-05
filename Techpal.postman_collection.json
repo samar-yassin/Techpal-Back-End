@@ -224,6 +224,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "delete track",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"track_id\":\"623e1fe70751b7d8f1eec7f4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/deletetrack",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"deletetrack"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -358,6 +390,95 @@
 								"api",
 								"deleteprofile",
 								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add resume",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"template\" : \"1\",\r\n    \"profile_id\": \"62c37010fa0b53dee64d80c0\",\r\n    \"leftorder\": [{\"name\":\"n\",\"hide\":true,\"data\":[]},{\"name\":\"about\",\"hide\":false,\"data\":[\"data\",\"data\"]}],\r\n    \"rightorder\": [{\"name\":\"n\",\"hide\":true,\"data\":[\"section1,hhhh,bold$\", \"aaa\"]}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/addresume",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"addresume"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get resume",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getresume/62c37010fa0b53dee64d80c0",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getresume",
+								"62c37010fa0b53dee64d80c0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update resume",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"template\" : \"2\",\r\n    \"leftorder\": [{\"name\":\"a\",\"hide\":false,\"data\":[]},{\"name\":\"about\",\"hide\":true,\"data\":[\"data\",\"data\"]}],\r\n    \"rightorder\": [{\"name\":\"x\",\"hide\":true,\"data\":[\"section1,hhhh,bold$\", \"aaa\"]}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updateresume/62c37010fa0b53dee64d80c0",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updateresume",
+								"62c37010fa0b53dee64d80c0"
 							]
 						}
 					},
