@@ -119,7 +119,7 @@ func DeleteProfile() gin.HandlerFunc {
 		defer cancel()
 		result, err := ProfilesCollection.DeleteOne(ctx, bson.M{"profile_id": profileId["profile_id"]})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		var message string
 		fmt.Println(result.DeletedCount)
@@ -141,13 +141,13 @@ func GetCurrentProfile() gin.HandlerFunc {
 		var user models.Student
 		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 
 		var profile models.Profile
 		err2 := ProfilesCollection.FindOne(ctx, bson.M{"profile_id": user.Current_profile}).Decode(&profile)
 		if err2 != nil {
-			log.Fatal(err2)
+			log.Println(err2)
 		}
 		c.JSON(http.StatusOK, profile)
 	}
@@ -160,14 +160,14 @@ func GetAllProfiles() gin.HandlerFunc {
 		defer cancel()
 		cursor, err := ProfilesCollection.Find(ctx, bson.M{})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		defer cursor.Close(ctx)
 		var profiles []models.Profile
 		for cursor.Next(ctx) {
 			var profile models.Profile
 			if err = cursor.Decode(&profile); err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 			if profile.User_id == userId {
 				profiles = append(profiles, profile)

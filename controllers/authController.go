@@ -159,7 +159,7 @@ func Signup() gin.HandlerFunc {
 
 		password, err := bcrypt.GenerateFromPassword([]byte(*user.Password), 15)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 			return
 		}
 		var tempPass = string(password)
@@ -198,12 +198,5 @@ func User() gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, cookie)
-	}
-}
-
-func Logout() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.SetCookie("jwt", "", -1, "", "", false, true)
-		c.Redirect(http.StatusTemporaryRedirect, "/")
 	}
 }

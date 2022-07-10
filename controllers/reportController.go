@@ -17,7 +17,7 @@ func ReportMentor() gin.HandlerFunc {
 			return
 		}
 		subject := "Report!"
-		body := "Report message " + *report.Message + "<br><br> session id: " + *report.Session_id
+		body := "Report message " + *report.Message
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "from@gmail.com")

@@ -22,14 +22,14 @@ func GetAllTracks() gin.HandlerFunc {
 		defer cancel()
 		cursor, err := TracksCollection.Find(ctx, bson.M{})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		defer cursor.Close(ctx)
 		var tracks []models.Track
 		for cursor.Next(ctx) {
 			var track models.Track
 			if err = cursor.Decode(&track); err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 			tracks = append(tracks, track)
 		}
@@ -65,7 +65,7 @@ func DeleteTrack() gin.HandlerFunc {
 		defer cancel()
 		result, err := TracksCollection.DeleteOne(ctx, bson.M{"track_id": trackId["track_id"]})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		var message string
 		fmt.Println(result.DeletedCount)

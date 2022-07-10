@@ -11,7 +11,6 @@ import (
 	"os"
 )
 
-
 func main() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -30,6 +29,7 @@ func main() {
 	routes.AuthRoutes(router)
 	routes.UserRoutes(router)
 	routes.AdminRoutes(router)
+	routes.MentorRoutes(router)
 	//	integration with select_file.html to test upload cv func
 	router.LoadHTMLGlob("template/*")
 	router.GET("/", func(c *gin.Context) {

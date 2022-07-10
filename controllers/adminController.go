@@ -57,7 +57,7 @@ func AcceptMentor() gin.HandlerFunc {
 			return
 		}
 
-		err := userCollection.FindOneAndUpdate(ctx, bson.M{"email": email["email"]}, bson.M{"$set": bson.M{"accepted": true}}).Decode(&mentor)
+		err := mentorsCollection.FindOneAndUpdate(ctx, bson.M{"email": email["email"]}, bson.M{"$set": bson.M{"accepted": true}}).Decode(&mentor)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "email or password is incorrect"})
@@ -94,14 +94,14 @@ func GetAcceptedMentors() gin.HandlerFunc {
 		defer cancel()
 		cursor, err := MentorsCollection.Find(ctx, bson.M{})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		defer cursor.Close(ctx)
 		var mentors []models.Mentor
 		for cursor.Next(ctx) {
 			var user models.Mentor
 			if err = cursor.Decode(&user); err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 			if *user.User_type == "mentor" && user.Accepted {
 				mentors = append(mentors, user)
@@ -117,14 +117,14 @@ func GetNotAcceptedMentors() gin.HandlerFunc {
 		defer cancel()
 		cursor, err := MentorsCollection.Find(ctx, bson.M{})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		defer cursor.Close(ctx)
 		var mentors []models.Mentor
 		for cursor.Next(ctx) {
 			var user models.Mentor
 			if err = cursor.Decode(&user); err != nil {
-				log.Fatal(err)
+				log.Println(err)
 			}
 			if *user.User_type == "mentor" && !user.Accepted {
 				mentors = append(mentors, user)
@@ -141,7 +141,7 @@ func RemoveMentor() gin.HandlerFunc {
 		defer cancel()
 		result, err := MentorsCollection.DeleteOne(ctx, bson.M{"user_id": userId})
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 		var message string
 		if result.DeletedCount < 1 {

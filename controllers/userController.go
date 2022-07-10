@@ -99,7 +99,7 @@ func ChangePassword() gin.HandlerFunc {
 
 		password, err := bcrypt.GenerateFromPassword([]byte(userpassword["new_password"]), 15)
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 			return
 		}
 		var tempPass = string(password)
