@@ -20,12 +20,12 @@ func ReportMentor() gin.HandlerFunc {
 		body := "Report message " + *report.Message
 
 		msg := gomail.NewMessage()
-		msg.SetHeader("From", "from@gmail.com")
-		msg.SetHeader("To", "to@gmail.com")
+		msg.SetHeader("From", "techpal.guidance@gmail.com")
+		msg.SetHeader("To", "farabi.marwa@gmail.com")
 		msg.SetHeader("Subject", subject)
 		msg.SetBody("text/html", body)
 
-		n := gomail.NewDialer("smtp.gmail.com", 587, "from@gmail.com", "password")
+		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
 
 		// Send the email
 		if err := n.DialAndSend(msg); err != nil {

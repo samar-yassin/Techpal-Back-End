@@ -73,12 +73,12 @@ func AcceptMentor() gin.HandlerFunc {
 		body := "Your password is : " + *mentor.Password
 
 		msg := gomail.NewMessage()
-		msg.SetHeader("From", "from@gmail.com")
+		msg.SetHeader("From", "techpal.guidance@gmail.com")
 		msg.SetHeader("To", *mentor.Email)
 		msg.SetHeader("Subject", subject)
 		msg.SetBody("text/html", body)
 
-		n := gomail.NewDialer("smtp.gmail.com", 587, "from@gmail.com", "password")
+		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
 
 		// Send the email
 		if err := n.DialAndSend(msg); err != nil {
