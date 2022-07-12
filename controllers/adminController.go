@@ -4,6 +4,7 @@ import (
 	"CareerGuidance/database"
 	"CareerGuidance/models"
 	"context"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"time"
@@ -71,6 +72,20 @@ func AcceptMentor() gin.HandlerFunc {
 
 		subject := "Congratulations"
 		body := "Your password is : " + *mentor.Password
+
+		password, err := bcrypt.GenerateFromPassword([]byte(*mentor.Password), 15)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		var tempPass = string(password)
+
+		err = mentorsCollection.FindOneAndUpdate(ctx, bson.M{"email": email["email"]}, bson.M{"$set": bson.M{"password": tempPass}}).Decode(&mentor)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "email or password is incorrect"})
+			return
+		}
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "from@gmail.com")
