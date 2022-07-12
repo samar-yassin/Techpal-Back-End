@@ -10,13 +10,13 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "login mentor",
+					"name": "login",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"tynub@vomoto.com\",\r\n    \"password\":\"X!anXKzn\"\r\n}",
+							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\",\r\n    \"password\":\"4aOvomj3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -24,7 +24,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8080/api/mentor/login",
+							"raw": "http://127.0.0.1:8080/api/login",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -35,40 +35,6 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"mentor",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login Student",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:81/api/student/login",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "81",
-							"path": [
-								"api",
-								"student",
 								"login"
 							]
 						}
@@ -82,7 +48,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tkaa@test.com\",\r\n    \"password\":\"X!anXKzn\",\r\n    \"user_type\":\"student\"\r\n}",
+							"raw": "{\r\n    \"full_name\":\"aaaa\",\r\n    \"email\":\"a2akaa@test.com\",\r\n    \"password\":\"4aOvomj3\",\r\n    \"user_type\":\"student\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -202,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"mentor@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
