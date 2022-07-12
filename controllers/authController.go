@@ -66,12 +66,12 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		//	token, refreshToken, _ := helpers.GenerateTokens(foundUser.Email, foundUser.Full_name, foundUser.User_id)
-		//	helpers.UpdateTokens(token, refreshToken, foundUser.User_id)
+		token, refreshToken, _ := helpers.GenerateTokens(foundUser.Email, foundUser.Full_name, foundUser.User_id)
+		helpers.UpdateTokens(token, refreshToken, foundUser.User_id)
 
-		//c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
+		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
 
-		//c.JSON(http.StatusOK, token)
+		c.JSON(http.StatusOK, token)
 		c.JSON(http.StatusOK, foundUser)
 
 	}
