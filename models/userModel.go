@@ -9,4 +9,5 @@ type User struct {
 	Email     *string
 	User_id   string
 	Password  *string
+	Accepted  bool
 }

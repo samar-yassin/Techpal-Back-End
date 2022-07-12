@@ -17,7 +17,6 @@ import (
 )
 
 var TrackCollection *mongo.Collection = database.OpenCollection(database.Client, "tracks")
-var MentorsCollection *mongo.Collection = database.OpenCollection(database.Client, "users")
 
 func AddTrack() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -107,7 +106,7 @@ func GetAcceptedMentors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		cursor, err := MentorsCollection.Find(ctx, bson.M{})
+		cursor, err := mentorsCollection.Find(ctx, bson.M{})
 		if err != nil {
 			log.Println(err)
 		}
@@ -130,7 +129,7 @@ func GetNotAcceptedMentors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		cursor, err := MentorsCollection.Find(ctx, bson.M{})
+		cursor, err := mentorsCollection.Find(ctx, bson.M{})
 		if err != nil {
 			log.Println(err)
 		}
@@ -154,7 +153,7 @@ func RemoveMentor() gin.HandlerFunc {
 		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		result, err := MentorsCollection.DeleteOne(ctx, bson.M{"user_id": userId})
+		result, err := mentorsCollection.DeleteOne(ctx, bson.M{"user_id": userId})
 		if err != nil {
 			log.Println(err)
 		}
@@ -162,7 +161,7 @@ func RemoveMentor() gin.HandlerFunc {
 		if result.DeletedCount < 1 {
 			message = userId + " doesn't exist."
 		} else {
-			message = userId + " deleted successffuly."
+			message = userId + " deleted successfully."
 		}
 		c.JSON(http.StatusOK, message)
 	}
