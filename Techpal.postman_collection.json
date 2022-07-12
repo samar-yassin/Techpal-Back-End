@@ -10,7 +10,40 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "login",
+					"name": "login mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"tynub@vomoto.com\",\r\n    \"password\":\"X!anXKzn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/mentor/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"mentor",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login Student",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -24,7 +57,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/login",
+							"raw": "http://127.0.0.1:81/api/student/login",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -35,6 +68,7 @@
 							"port": "81",
 							"path": [
 								"api",
+								"student",
 								"login"
 							]
 						}
@@ -48,7 +82,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tkx@test.com\",\r\n    \"password\":\"111\",\r\n    \"user_type\":\"student\"\r\n}",
+							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tkaa@test.com\",\r\n    \"password\":\"X!anXKzn\",\r\n    \"user_type\":\"student\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -56,7 +90,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/signup",
+							"raw": "http://127.0.0.1:8080/api/signup",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -64,7 +98,7 @@
 								"0",
 								"1"
 							],
-							"port": "81",
+							"port": "8080",
 							"path": [
 								"api",
 								"signup"
@@ -168,7 +202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"tk@tk.com\"\r\n}",
+							"raw": "{\r\n    \"email\":\"mentor@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -176,7 +210,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/acceptmentor",
+							"raw": "http://127.0.0.1:8080/api/acceptmentor",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -184,7 +218,7 @@
 								"0",
 								"1"
 							],
-							"port": "81",
+							"port": "8080",
 							"path": [
 								"api",
 								"acceptmentor"
@@ -200,7 +234,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"message\":\"i don't like him\",\r\n    \"session_id\":\"15\"\r\n}",
+							"raw": "{\r\n    \"message\":\"i don't like him\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -208,7 +242,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/reportmentor",
+							"raw": "http://127.0.0.1:81/api/reportmentor/email@email.com",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -219,7 +253,8 @@
 							"port": "81",
 							"path": [
 								"api",
-								"reportmentor"
+								"reportmentor",
+								"email@email.com"
 							]
 						}
 					},
@@ -611,6 +646,123 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get all session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getallsessions",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getallsessions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mentor",
+			"item": [
+				{
+					"name": "session",
+					"item": [
+						{
+							"name": "addSession",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"session_name\":\"how to not be hecker\",\r\n    \"date\":\"12/12/1212\",\r\n    \"time\":\"12:12\",\r\n    \"meeting_link\":\"http://link.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/addsession/13",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"addsession",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all sessions for mentor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/getallsessions/13",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"getallsessions",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "remove session",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/removesession/62ca3aec75527623c24c25fd",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"removesession",
+										"62ca3aec75527623c24c25fd"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
