@@ -8,7 +8,6 @@ import (
 
 func AuthRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/signup", controller.Signup())
-	incomingRoutes.POST("api/student/login", controller.LoginStudent())
-	incomingRoutes.POST("api/mentor/login", controller.LoginMentor())
+	incomingRoutes.POST("api/login", controller.Login())
 	incomingRoutes.POST("api/applymentor", controller.ApplyMentor())
 }
