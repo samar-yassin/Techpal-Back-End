@@ -23,5 +23,6 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/addresume", controller.AddResume())
 	incomingRoutes.GET("api/getresume/:profile_id", controller.GetResume())
 	incomingRoutes.POST("api/updateresume/:profile_id", controller.UpdateResume())
+	incomingRoutes.GET("api/getallsessions", controller.GetAllSessions())
 
 }

@@ -39,7 +39,7 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	return check, msg
 }
 
-func Login() gin.HandlerFunc {
+func LoginStudent() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		var user models.User
@@ -76,6 +76,52 @@ func Login() gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, token)
 		c.JSON(http.StatusOK, foundUser)
+
+	}
+}
+
+func LoginMentor() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		var mentor models.Mentor
+		var foundmentor models.Mentor
+		if err := c.BindJSON(&mentor); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+
+		err := mentorsCollection.FindOne(ctx, bson.M{"email": mentor.Email}).Decode(&foundmentor)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "email or password is incorrect"})
+			return
+		}
+
+		if foundmentor.Email == nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Mentor not found"})
+			return
+		}
+
+		if foundmentor.Accepted == false {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "not accepted yet"})
+			return
+		}
+
+		passwordIsValid, msg := VerifyPassword(*foundmentor.Password, *mentor.Password)
+
+		defer cancel()
+		if passwordIsValid != true {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": msg})
+			return
+		}
+
+		token, refreshToken, _ := helpers.GenerateTokens(foundmentor.Email, foundmentor.Full_name, foundmentor.User_id)
+		helpers.UpdateTokens(token, refreshToken, foundmentor.User_id)
+
+		c.SetCookie("jwt", token, 60*60*24, "/", "career guidance", true, true)
+
+		c.JSON(http.StatusOK, token)
+		c.JSON(http.StatusOK, foundmentor)
 
 	}
 }

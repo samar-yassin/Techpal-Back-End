@@ -117,3 +117,24 @@ func ChangePassword() gin.HandlerFunc {
 	}
 
 }
+
+func GetAllSessions() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := SessionsCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var sessions []models.Session
+		for cursor.Next(ctx) {
+			var session models.Session
+			if err = cursor.Decode(&session); err != nil {
+				log.Println(err)
+			}
+			sessions = append(sessions, session)
+		}
+		c.JSON(http.StatusOK, sessions)
+	}
+}

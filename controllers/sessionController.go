@@ -48,7 +48,7 @@ func AddSession() gin.HandlerFunc {
 	}
 }
 
-func GetAllSessions() gin.HandlerFunc {
+func GetAllSessionsForMentor() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)

@@ -9,6 +9,7 @@ import (
 
 func ReportMentor() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		mentoremail := c.Param("mentor_email")
 		var report models.Report
 
 		err := c.BindJSON(&report)
@@ -16,8 +17,10 @@ func ReportMentor() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-		subject := "Report!"
-		body := "Report message " + *report.Message
+
+		report.Mentor_email = mentoremail
+		subject := "Mentor Report"
+		body := "Mentor" + mentoremail + "<br><br>Message" + *report.Message
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "techpal.guidance@gmail.com")
