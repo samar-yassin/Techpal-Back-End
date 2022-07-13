@@ -69,8 +69,8 @@ func AcceptMentor() gin.HandlerFunc {
 			return
 		}
 
-		subject := "Congratulations"
-		body := "Your password is : " + *mentor.Password
+		subject := "Welcome To Techpal"
+		body := "Congratulations! You have been accepted as a mentor in Techpal! <br> You can now login to you account, your password is : " + *mentor.Password
 
 		password, err := bcrypt.GenerateFromPassword([]byte(*mentor.Password), 15)
 		if err != nil {

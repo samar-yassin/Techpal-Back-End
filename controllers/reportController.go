@@ -20,7 +20,7 @@ func ReportMentor() gin.HandlerFunc {
 
 		report.Mentor_email = mentoremail
 		subject := "Mentor Report"
-		body := "Mentor" + mentoremail + "<br><br>Message" + *report.Message
+		body := "Mentor:<br>" + mentoremail + "<br><br>Message:<br>" + *report.Message
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "techpal.guidance@gmail.com")
