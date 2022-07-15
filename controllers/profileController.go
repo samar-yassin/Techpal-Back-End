@@ -17,6 +17,9 @@ import (
 
 var ProfilesCollection *mongo.Collection = database.OpenCollection(database.Client, "profiles")
 
+var CoursesCollection *mongo.Collection = database.OpenCollection(database.Client, "courses")
+var EnrolledCoursesCollection *mongo.Collection = database.OpenCollection(database.Client, "enrolledCourses")
+
 func CreateProfile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")
@@ -50,7 +53,7 @@ func CreateProfile() gin.HandlerFunc {
 		points = 0
 		//var lvl int
 		//lvl = 0
-		for _, skill := range profile.Completed_skills {
+		for _, skill := range profile.Completed_Skills {
 			points += track.Skills[skill]
 			//lvl++
 		}
@@ -174,5 +177,92 @@ func GetAllProfiles() gin.HandlerFunc {
 			}
 		}
 		c.JSON(http.StatusOK, profiles)
+	}
+}
+
+func MarkCompleted() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		var foundProfile models.Profile
+		var profile map[string]string
+		var course models.Course
+
+		if err := c.BindJSON(&profile); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error1": err.Error()})
+			return
+		}
+
+		err := ProfilesCollection.FindOne(ctx, bson.M{"profile_id": profile["profile_id"]}).Decode(&foundProfile)
+
+		err = EnrolledCoursesCollection.FindOne(ctx, bson.M{"profile_id": profile["profile_id"], "course_id": profile["course_id"]}).Decode(&course)
+		*course.Completed = true
+
+		var track models.Track
+		err = TracksCollection.FindOne(ctx, bson.M{"track_id": foundProfile.Track_id}).Decode(&track)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "No track found"})
+			return
+		}
+
+		var enrolledcourse models.EnrolledCourse
+		err = CoursesCollection.FindOne(ctx, bson.M{"course_id": profile["course_id"]}).Decode(&enrolledcourse)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "No course found"})
+			return
+		}
+
+		foundProfile.Points += track.Skills[*enrolledcourse.Skill]
+
+		//profile.Points = profile.Points+1;
+		err = EnrolledCoursesCollection.FindOneAndUpdate(ctx, bson.M{"profile_id": profile["profile_id"], "course_id": profile["course_id"]}, bson.M{"$set": course}).Decode(&course)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error1": err.Error()})
+			return
+		}
+
+		err = ProfilesCollection.FindOneAndUpdate(ctx, bson.M{"profile_id": profile["profile_id"]}, bson.M{"$set": foundProfile}).Decode(&foundProfile)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error2": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, foundProfile)
+
+	}
+}
+
+func EnrollCourse() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, _ = context.WithTimeout(context.Background(), 100*time.Second)
+		var foundProfile models.Profile
+		var course models.Course
+		if err := c.BindJSON(&course); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+		_, err := EnrolledCoursesCollection.InsertOne(ctx, course)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "No course found"})
+			return
+		}
+		/*
+			//foundProfile.EnrolledCourses = append(foundProfile.EnrolledCourses, enrolledcourse)
+
+			err = ProfilesCollection.FindOneAndUpdate(ctx, bson.M{"profile_id": profile["profile_id"]}, bson.M{"$enrolledcourses": bson.M{"completed": "false"}}).Decode(&foundProfile)
+			defer cancel()
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+				return
+			}
+
+		*/
+
+		c.JSON(http.StatusOK, foundProfile)
+
 	}
 }

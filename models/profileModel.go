@@ -9,5 +9,6 @@ type Profile struct {
 	Track_id         string   `json:"Track_id" validate:"required"`
 	Points           int      `json:"points"`
 	Level            int      `json:"level"`
-	Completed_skills []string `json:"completed_skills"`
+	Completed_Skills []string `json:"completed_skills"`
+	EnrolledCourses  []EnrolledCourse
 }

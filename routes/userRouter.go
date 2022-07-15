@@ -12,6 +12,8 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/createprofile/:user_id", controller.CreateProfile())
 	incomingRoutes.POST("api/switchprofile/:user_id", controller.SwitchProfile())
 	incomingRoutes.DELETE("api/deleteprofile/:user_id", controller.DeleteProfile())
+	incomingRoutes.POST("api/markcompleted", controller.MarkCompleted())
+	incomingRoutes.POST("api/enroll", controller.EnrollCourse())
 	incomingRoutes.GET("api/getcurrentprofile/:user_id", controller.GetCurrentProfile())
 	incomingRoutes.GET("api/user", controller.User())
 	incomingRoutes.GET("api/getuser/:user_id", controller.GetUser())
