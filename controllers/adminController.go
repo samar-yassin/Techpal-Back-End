@@ -69,8 +69,8 @@ func AcceptMentor() gin.HandlerFunc {
 			return
 		}
 
-		subject := "Congratulations"
-		body := "Your password is : " + *mentor.Password
+		subject := "Welcome To Techpal"
+		body := "Congratulations! You have been accepted as a mentor in Techpal! <br> You can now login to you account, your password is : " + *mentor.Password
 
 		password, err := bcrypt.GenerateFromPassword([]byte(*mentor.Password), 15)
 		if err != nil {
@@ -87,12 +87,12 @@ func AcceptMentor() gin.HandlerFunc {
 		}
 
 		msg := gomail.NewMessage()
-		msg.SetHeader("From", "from@gmail.com")
+		msg.SetHeader("From", "techpal.guidance@gmail.com")
 		msg.SetHeader("To", *mentor.Email)
 		msg.SetHeader("Subject", subject)
 		msg.SetBody("text/html", body)
 
-		n := gomail.NewDialer("smtp.gmail.com", 587, "from@gmail.com", "password")
+		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
 
 		// Send the email
 		if err := n.DialAndSend(msg); err != nil {

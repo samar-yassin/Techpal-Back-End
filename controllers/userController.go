@@ -18,15 +18,19 @@ func GetUser() gin.HandlerFunc {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		userId := c.Param("user_id")
 		var user models.Student
+		var mentor models.Mentor
 		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
 		defer cancel()
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
-			return
+		if err != nil || user.Email == nil {
+			err = mentorsCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&mentor)
+			if err != nil || mentor.Email == nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, mentor)
+		} else {
+			c.JSON(http.StatusOK, user)
 		}
-
-		c.JSON(http.StatusOK, user)
-
 	}
 }
 
