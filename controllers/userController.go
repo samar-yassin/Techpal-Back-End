@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"CareerGuidance/database"
 	"CareerGuidance/models"
 	"context"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"net/http"
 	"time"
@@ -12,6 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 )
+
+var RatingsCollection *mongo.Collection = database.OpenCollection(database.Client, "ratings")
 
 func GetUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -141,5 +146,27 @@ func GetAllSessions() gin.HandlerFunc {
 			sessions = append(sessions, session)
 		}
 		c.JSON(http.StatusOK, sessions)
+	}
+}
+
+func RateCourse() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		var rating models.Rating
+		if err := c.BindJSON(&rating); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+
+		rating.ID = primitive.NewObjectID()
+		rating.Rating_ID = rating.ID.Hex()
+
+		_, err := RatingsCollection.InsertOne(ctx, rating)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err})
+			return
+		}
+		defer cancel()
+		c.JSON(http.StatusOK, rating)
 	}
 }
