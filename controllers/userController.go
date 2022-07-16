@@ -156,7 +156,6 @@ func GetEnrolledCourses() gin.HandlerFunc {
 		userId := c.Param("user_id")
 		defer cancel()
 		cursor, err := EnrolledCoursesCollection.Find(ctx, bson.M{"user_id": userId, "completed": false})
-		print("hhhere")
 		if err != nil {
 			log.Println(err)
 		}
@@ -166,9 +165,7 @@ func GetEnrolledCourses() gin.HandlerFunc {
 			var course models.EnrolledCourse
 			var c models.Course
 			cursor.Decode(&c)
-			print("error")
 			err := CoursesCollection.FindOne(ctx, bson.M{"course_id": c.Course_id}).Decode(&course)
-			print("eerror")
 			if err != nil {
 				log.Println(err)
 			}
