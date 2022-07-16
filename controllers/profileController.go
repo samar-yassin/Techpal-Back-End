@@ -180,6 +180,27 @@ func GetAllProfiles() gin.HandlerFunc {
 	}
 }
 
+func GetAllProfilesForTrack() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		track_id := c.Param("track_id")
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := ProfilesCollection.Find(ctx, bson.M{"track_id": track_id})
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var profiles []models.Profile
+		for cursor.Next(ctx) {
+			var profile models.Profile
+			if err = cursor.Decode(&profile); err != nil {
+				log.Println(err)
+			}
+		}
+		c.JSON(http.StatusOK, profiles)
+	}
+}
+
 func MarkCompleted() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
