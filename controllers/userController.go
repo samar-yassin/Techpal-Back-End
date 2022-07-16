@@ -161,7 +161,22 @@ func RateCourse() gin.HandlerFunc {
 		rating.ID = primitive.NewObjectID()
 		rating.Rating_ID = rating.ID.Hex()
 
-		_, err := RatingsCollection.InsertOne(ctx, rating)
+		var student models.Student
+		err := userCollection.FindOne(ctx, bson.M{"user_id": rating.User_ID}).Decode(&student)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+			return
+		}
+		*student.Course_rated = *student.Course_rated + 1
+		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": rating.User_ID}, bson.M{"$set": student}).Decode(&student)
+		defer cancel()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+			return
+		}
+
+		_, err = RatingsCollection.InsertOne(ctx, rating)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err})
 			return
