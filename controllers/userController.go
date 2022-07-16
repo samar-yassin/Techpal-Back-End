@@ -149,6 +149,35 @@ func GetAllSessions() gin.HandlerFunc {
 	}
 }
 
+func GetEnrolledCourses() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+
+		userId := c.Param("user_id")
+		defer cancel()
+		cursor, err := EnrolledCoursesCollection.Find(ctx, bson.M{"user_id": userId, "completed": false})
+		print("hhhere")
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var courses []models.EnrolledCourse
+		for cursor.Next(ctx) {
+			var course models.EnrolledCourse
+			var c models.Course
+			cursor.Decode(&c)
+			print("error")
+			err := CoursesCollection.FindOne(ctx, bson.M{"course_id": c.Course_id}).Decode(&course)
+			print("eerror")
+			if err != nil {
+				log.Println(err)
+			}
+			courses = append(courses, course)
+		}
+		c.JSON(http.StatusOK, courses)
+	}
+}
+
 func RateCourse() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
