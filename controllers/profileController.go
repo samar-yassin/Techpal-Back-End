@@ -214,6 +214,7 @@ func MarkCompleted() gin.HandlerFunc {
 		}
 
 		foundProfile.Points += track.Skills[*enrolledcourse.Skill]
+		foundProfile.Completed_Skills = append(foundProfile.Completed_Skills, *enrolledcourse.Skill)
 
 		//profile.Points = profile.Points+1;
 		err = EnrolledCoursesCollection.FindOneAndUpdate(ctx, bson.M{"profile_id": profile["profile_id"], "course_id": profile["course_id"]}, bson.M{"$set": course}).Decode(&course)
