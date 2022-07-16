@@ -295,3 +295,27 @@ func EnrollCourse() gin.HandlerFunc {
 
 	}
 }
+
+func DeleteCourse() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var profileId map[string]string
+		if err := c.BindJSON(&profileId); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		result, err := EnrolledCoursesCollection.DeleteOne(ctx, bson.M{"profile_id": profileId["profile_id"], "course_id": profileId["course_id"]})
+		if err != nil {
+			log.Println(err)
+		}
+		var message string
+		fmt.Println(result.DeletedCount)
+		if result.DeletedCount < 1 {
+			message = profileId["profile_id"] + " doesn't exist."
+		} else {
+			message = profileId["profile_id"] + " deleted successffuly."
+		}
+		c.JSON(http.StatusOK, message)
+	}
+}
