@@ -5,6 +5,7 @@ import (
 	"CareerGuidance/models"
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 	"time"
@@ -15,6 +16,7 @@ import (
 )
 
 var TracksCollection *mongo.Collection = database.OpenCollection(database.Client, "tracks")
+var SkillCollection *mongo.Collection = database.OpenCollection(database.Client, "skills")
 
 func GetAllTracks() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -75,5 +77,45 @@ func DeleteTrack() gin.HandlerFunc {
 			message = trackId["track_id"] + " deleted successffuly."
 		}
 		c.JSON(http.StatusOK, message)
+	}
+}
+
+func AddSkill() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		skill_name := c.Param("skill_name")
+		var skill models.Skill
+
+		skill.ID = primitive.NewObjectID()
+		skill.Skill_id = skill.ID.Hex()
+		skill.Name = skill_name
+		_, err := SkillCollection.InsertOne(ctx, skill)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": err})
+			return
+		}
+		defer cancel()
+		c.JSON(http.StatusOK, skill)
+	}
+}
+
+func GetAllSkills() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := SkillCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var skills []models.Skill
+		for cursor.Next(ctx) {
+			var skill models.Skill
+			if err = cursor.Decode(&skill); err != nil {
+				log.Println(err)
+			}
+			skills = append(skills, skill)
+		}
+		c.JSON(http.StatusOK, skills)
 	}
 }

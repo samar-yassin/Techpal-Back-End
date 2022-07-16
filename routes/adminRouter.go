@@ -15,4 +15,6 @@ func AdminRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("api/reportmentor/:mentor_email", controller.ReportMentor())
 	incomingRoutes.GET("api/getacceptedmentors", controller.GetAcceptedMentors())
 	incomingRoutes.GET("api/getnotacceptedmentors", controller.GetNotAcceptedMentors())
+	incomingRoutes.GET("api/addskill/:skill_name", controller.AddSkill())
+	incomingRoutes.GET("api/getallskills", controller.GetAllSkills())
 }
