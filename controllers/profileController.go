@@ -5,14 +5,14 @@ import (
 	"CareerGuidance/models"
 	"context"
 	"fmt"
-	"log"
-	"net/http"
-	"time"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
+	"net/http"
+	"time"
 )
 
 var ProfilesCollection *mongo.Collection = database.OpenCollection(database.Client, "profiles")
@@ -54,7 +54,7 @@ func CreateProfile() gin.HandlerFunc {
 		var lvl int
 		lvl = 0
 		for _, skill := range profile.Completed_Skills {
-			points += track.Skills[skill]
+			points += track.Skills[skill].Points
 			lvl++
 		}
 
@@ -240,7 +240,7 @@ func MarkCompleted() gin.HandlerFunc {
 		var lvl int
 		lvl = foundProfile.Level
 		for _, skill := range enrolledcourse.Skills {
-			foundProfile.Points += track.Skills[skill]
+			foundProfile.Points += track.Skills[skill].Points
 			foundProfile.Completed_Skills = append(foundProfile.Completed_Skills, skill)
 			lvl++
 		}
