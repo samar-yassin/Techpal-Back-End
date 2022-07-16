@@ -139,6 +139,74 @@
 					"response": []
 				},
 				{
+					"name": "add skill",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/addskill/javascript",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addskill",
+								"javascript"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all skills",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getallskills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getallskills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "get all tracks",
 					"request": {
 						"method": "GET",
@@ -309,7 +377,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"track_id\":\"62c2461ed9e0f15fb31936d8\",\r\n    \"completed_skills\" : [\"Networking\",\"Hacking\",\"Being Cool\"]\r\n}",
+							"raw": "{\r\n    \"track_id\":\"62c2461ed9e0f15fb31936d8\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,7 +385,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:81/api/createprofile/6271d2da16abee6cdd13f89c",
+							"raw": "http://127.0.0.1:8080/api/createprofile/62cf572f2e63632734eb66ad",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -325,11 +393,11 @@
 								"0",
 								"1"
 							],
-							"port": "81",
+							"port": "8080",
 							"path": [
 								"api",
 								"createprofile",
-								"6271d2da16abee6cdd13f89c"
+								"62cf572f2e63632734eb66ad"
 							]
 						}
 					},
@@ -391,6 +459,70 @@
 								"api",
 								"deleteprofile",
 								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mark as completed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"62cf57ef2e63632734eb66af\",\r\n\t\"course_id\" : \"62cf49417510c13118c1e0bb\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/markcompleted",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"markcompleted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enroll course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"62cf57ef2e63632734eb66af\",\r\n    \"user_id\":\"62cf572f2e63632734eb66ad\",\r\n\t\"course_id\" : \"62cf49417510c13118c1e0bb\",\r\n    \"completed\" : false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/enroll",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enroll"
 							]
 						}
 					},
@@ -480,6 +612,38 @@
 								"api",
 								"updateresume",
 								"62c37010fa0b53dee64d80c0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\":\"62731747f166a45c475dbb9a\",\r\n    \"course_id\":\"62cf49557510c13118c1e0d4\",\r\n    \"rating\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/rate",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rate"
 							]
 						}
 					},
@@ -631,6 +795,30 @@
 							"path": [
 								"api",
 								"getallsessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getenrolledcourses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getenrolledcourses/62cf572f2e63632734eb66ad",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getenrolledcourses",
+								"62cf572f2e63632734eb66ad"
 							]
 						}
 					},
