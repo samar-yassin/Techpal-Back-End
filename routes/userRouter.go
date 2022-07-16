@@ -19,14 +19,15 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.GET("api/getuser/:user_id", controller.GetUser())
 	incomingRoutes.POST("api/updatestudent/:user_id", controller.UpdateStudent())
 	incomingRoutes.POST("api/updatementor/:user_id", controller.UpdateMentor())
-	incomingRoutes.POST("api/changepassword/:user_id", controller.ChangePassword())
+	incomingRoutes.POST("api/changementorpassword/:user_id", controller.ChangeMentorPassword())
 	incomingRoutes.GET("api/getallprofiles/:user_id", controller.GetAllProfiles())
 	incomingRoutes.DELETE("api/removementor/:user_id", controller.RemoveMentor())
 	incomingRoutes.POST("api/addresume", controller.AddResume())
 	incomingRoutes.GET("api/getresume/:profile_id", controller.GetResume())
 	incomingRoutes.POST("api/updateresume/:profile_id", controller.UpdateResume())
-	incomingRoutes.POST("api/getallsessions", controller.GetAllSessions())
-	incomingRoutes.GET("api/getenrolledcourses/:user_id", controller.GetEnrolledCourses())
+	incomingRoutes.GET("api/getallsessions", controller.GetAllSessions())
+	incomingRoutes.GET("api/getenrolledcourses/:profile_id", controller.GetEnrolledCourses())
+	incomingRoutes.GET("api/getcompletedcourses/:profile_id", controller.GetCompletedCourses())
 	incomingRoutes.POST("api/rate", controller.RateCourse())
 
 }

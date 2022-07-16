@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -53,7 +53,9 @@ func GetAllSessionsForMentor() gin.HandlerFunc {
 		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		cursor, err := SessionsCollection.Find(ctx, bson.M{"mentorid": userId})
+		findOptions := options.Find()
+		findOptions.SetSort(bson.D{{"date", -1}})
+		cursor, err := SessionsCollection.Find(ctx, bson.M{"mentorid": userId}, findOptions)
 		if err != nil {
 			log.Println(err)
 		}

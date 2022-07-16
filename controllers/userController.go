@@ -9,7 +9,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
@@ -83,7 +83,7 @@ func UpdateMentor() gin.HandlerFunc {
 	}
 }
 
-func ChangePassword() gin.HandlerFunc {
+func ChangeMentorPassword() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -92,15 +92,15 @@ func ChangePassword() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
-		var user models.User
-		err := userCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&user)
+		var mentor models.Mentor
+		err := mentorsCollection.FindOne(ctx, bson.M{"user_id": userId}).Decode(&mentor)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 			return
 		}
 
-		passwordIsValid, msg := VerifyPassword(*user.Password, userpassword["current_password"])
+		passwordIsValid, msg := VerifyPassword(*mentor.Password, userpassword["current_password"])
 		defer cancel()
 		if passwordIsValid != true {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": msg})
@@ -113,17 +113,16 @@ func ChangePassword() gin.HandlerFunc {
 			return
 		}
 		var tempPass = string(password)
-		user.Password = &tempPass
+		mentor.Password = &tempPass
 
-		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"password": user.Password}}).Decode(&user)
+		err = mentorsCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"password": mentor.Password}}).Decode(&mentor)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 			return
 		}
 
-		c.JSON(http.StatusOK, user)
-
+		c.JSON(http.StatusOK, mentor)
 	}
 
 }
@@ -132,7 +131,9 @@ func GetAllSessions() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		cursor, err := SessionsCollection.Find(ctx, bson.M{})
+		findOptions := options.Find()
+		findOptions.SetSort(bson.D{{"date", -1}})
+		cursor, err := SessionsCollection.Find(ctx, bson.M{}, findOptions)
 		if err != nil {
 			log.Println(err)
 		}
@@ -153,9 +154,9 @@ func GetEnrolledCourses() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 
-		userId := c.Param("user_id")
+		profileId := c.Param("profile_id")
 		defer cancel()
-		cursor, err := EnrolledCoursesCollection.Find(ctx, bson.M{"user_id": userId, "completed": false})
+		cursor, err := EnrolledCoursesCollection.Find(ctx, bson.M{"profile_id": profileId, "completed": false})
 		if err != nil {
 			log.Println(err)
 		}
@@ -166,6 +167,34 @@ func GetEnrolledCourses() gin.HandlerFunc {
 			var c models.Course
 			cursor.Decode(&c)
 			err := CoursesCollection.FindOne(ctx, bson.M{"course_id": c.Course_id}).Decode(&course)
+			course.Completed = c.Completed
+			if err != nil {
+				log.Println(err)
+			}
+			courses = append(courses, course)
+		}
+		c.JSON(http.StatusOK, courses)
+	}
+}
+
+func GetCompletedCourses() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+
+		profileId := c.Param("profile_id")
+		defer cancel()
+		cursor, err := EnrolledCoursesCollection.Find(ctx, bson.M{"profile_id": profileId, "completed": true})
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var courses []models.EnrolledCourse
+		for cursor.Next(ctx) {
+			var course models.EnrolledCourse
+			var c models.Course
+			cursor.Decode(&c)
+			err := CoursesCollection.FindOne(ctx, bson.M{"course_id": c.Course_id}).Decode(&course)
+			course.Completed = c.Completed
 			if err != nil {
 				log.Println(err)
 			}

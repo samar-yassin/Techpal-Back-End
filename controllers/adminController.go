@@ -157,6 +157,10 @@ func RemoveMentor() gin.HandlerFunc {
 		if err != nil {
 			log.Println(err)
 		}
+		result, err = SessionsCollection.DeleteMany(ctx, bson.M{"mentorid": userId})
+		if err != nil {
+			log.Println(err)
+		}
 		var message string
 		if result.DeletedCount < 1 {
 			message = userId + " doesn't exist."
