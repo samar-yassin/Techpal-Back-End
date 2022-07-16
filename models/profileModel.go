@@ -10,5 +10,4 @@ type Profile struct {
 	Points           int      `json:"points"`
 	Level            int      `json:"level"`
 	Completed_Skills []string `json:"completed_skills"`
-	EnrolledCourses  []EnrolledCourse
 }
