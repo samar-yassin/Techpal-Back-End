@@ -193,9 +193,11 @@ func LeadershipBoard() gin.HandlerFunc {
 		var profiles []models.Profile
 		for cursor.Next(ctx) {
 			var profile models.Profile
-			if err = cursor.Decode(&profile); err != nil {
+			err = cursor.Decode(&profile)
+			if err != nil {
 				log.Println(err)
 			}
+			profiles = append(profiles, profile)
 		}
 		c.JSON(http.StatusOK, profiles)
 	}
