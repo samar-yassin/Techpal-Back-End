@@ -180,7 +180,7 @@ func GetAllProfiles() gin.HandlerFunc {
 	}
 }
 
-func GetAllProfilesForTrack() gin.HandlerFunc {
+func LeadershipBoard() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		track_id := c.Param("track_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
