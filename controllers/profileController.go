@@ -51,15 +51,15 @@ func CreateProfile() gin.HandlerFunc {
 
 		var points int
 		points = 0
-		//var lvl int
-		//lvl = 0
+		var lvl int
+		lvl = 0
 		for _, skill := range profile.Completed_Skills {
 			points += track.Skills[skill]
-			//lvl++
+			lvl++
 		}
 
 		profile.Points = points
-		//profile.Level = lvl
+		profile.Level = lvl
 
 		var user models.Student
 		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": userId}, bson.M{"$set": bson.M{"current_profile": profile.Profile_id}}).Decode(&user)
@@ -212,11 +212,14 @@ func MarkCompleted() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "No course found"})
 			return
 		}
-
-		foundProfile.Points += track.Skills[*enrolledcourse.Skill]
-		foundProfile.Completed_Skills = append(foundProfile.Completed_Skills, *enrolledcourse.Skill)
-
-		//profile.Points = profile.Points+1;
+		var lvl int
+		lvl = foundProfile.Level
+		for _, skill := range enrolledcourse.Skills {
+			foundProfile.Points += track.Skills[skill]
+			foundProfile.Completed_Skills = append(foundProfile.Completed_Skills, skill)
+			lvl++
+		}
+		foundProfile.Level = lvl
 		err = EnrolledCoursesCollection.FindOneAndUpdate(ctx, bson.M{"profile_id": profile["profile_id"], "course_id": profile["course_id"]}, bson.M{"$set": course}).Decode(&course)
 		defer cancel()
 		if err != nil {
