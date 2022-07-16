@@ -6,11 +6,11 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 	"time"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -238,5 +238,25 @@ func RateCourse() gin.HandlerFunc {
 		}
 		defer cancel()
 		c.JSON(http.StatusOK, rating)
+	}
+}
+func GetAllUsers() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+		cursor, err := userCollection.Find(ctx, bson.M{})
+		if err != nil {
+			log.Println(err)
+		}
+		defer cursor.Close(ctx)
+		var students []models.Student
+		for cursor.Next(ctx) {
+			var student models.Student
+			if err = cursor.Decode(&student); err != nil {
+				log.Println(err)
+			}
+			students = append(students, student)
+		}
+		c.JSON(http.StatusOK, students)
 	}
 }

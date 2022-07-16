@@ -28,6 +28,7 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.GET("api/getallsessions", controller.GetAllSessions())
 	incomingRoutes.GET("api/getenrolledcourses/:profile_id", controller.GetEnrolledCourses())
 	incomingRoutes.GET("api/getcompletedcourses/:profile_id", controller.GetCompletedCourses())
+	incomingRoutes.GET("api/getallusers", controller.GetAllUsers())
 	incomingRoutes.GET("api/leadershipboard/:track_id", controller.LeadershipBoard())
 	incomingRoutes.POST("api/deletecourse", controller.DeleteCourse())
 	incomingRoutes.POST("api/rate", controller.RateCourse())
