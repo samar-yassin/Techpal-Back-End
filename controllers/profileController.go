@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 	"time"
-
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -185,7 +185,9 @@ func LeadershipBoard() gin.HandlerFunc {
 		track_id := c.Param("track_id")
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
-		cursor, err := ProfilesCollection.Find(ctx, bson.M{"track_id": track_id})
+		findOptions := options.Find()
+		findOptions.SetSort(bson.D{{"points", -1}})
+		cursor, err := ProfilesCollection.Find(ctx, bson.M{"track_id": track_id}, findOptions)
 		if err != nil {
 			log.Println(err)
 		}
