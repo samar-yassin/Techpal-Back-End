@@ -271,6 +271,10 @@ func ContactUs() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 			return
 		}
+		println(*contactus.First_name)
+		println(*contactus.Last_name)
+		println(*contactus.Email)
+		println(*contactus.Message)
 
 		subject := "Contact Us Form"
 		body := "First Name:<br>" + *contactus.First_name + "Last Name:<br>" + *contactus.Last_name + "<br><br>Email:<br>" + *contactus.Email + "<br><br>Message:<br>" + *contactus.Message
@@ -285,7 +289,7 @@ func ContactUs() gin.HandlerFunc {
 
 		// Send the email
 		if err := n.DialAndSend(msg); err != nil {
-			panic(err)
+			println(err.Error())
 		}
 
 	}
