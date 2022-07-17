@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+	"gopkg.in/gomail.v2"
 	"log"
 	"net/http"
 	"time"
@@ -258,5 +259,34 @@ func GetAllUsers() gin.HandlerFunc {
 			students = append(students, student)
 		}
 		c.JSON(http.StatusOK, students)
+	}
+}
+
+func ContactUs() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var contactus models.ContactUs
+
+		err := c.BindJSON(&contactus)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
+			return
+		}
+
+		subject := "Contact Us Form"
+		body := "First Name:<br>" + contactus.First_name + "Last Name:<br>" + contactus.Last_name + "<br><br>Email:<br>" + contactus.Email + "<br><br>Message:<br>" + contactus.Message
+
+		msg := gomail.NewMessage()
+		msg.SetHeader("From", "techpal.guidance@gmail.com")
+		msg.SetHeader("To", "farabi.marwa@gmail.com")
+		msg.SetHeader("Subject", subject)
+		msg.SetBody("text/html", body)
+
+		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
+
+		// Send the email
+		if err := n.DialAndSend(msg); err != nil {
+			panic(err)
+		}
+
 	}
 }
