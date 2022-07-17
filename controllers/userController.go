@@ -277,7 +277,7 @@ func ContactUs() gin.HandlerFunc {
 		println(*contactus.Message)
 
 		subject := "Contact Us Form"
-		body := "First Name:<br>" + *contactus.First_name + "Last Name:<br>" + *contactus.Last_name + "<br><br>Email:<br>" + *contactus.Email + "<br><br>Message:<br>" + *contactus.Message
+		body := "First Name: " + *contactus.First_name + "<br>Last Name: " + *contactus.Last_name + "<br><br>Email: " + *contactus.Email + "<br><br>Message: " + *contactus.Message
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "techpal.guidance@gmail.com")
@@ -286,11 +286,11 @@ func ContactUs() gin.HandlerFunc {
 		msg.SetBody("text/html", body)
 
 		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
-
+		n.DialAndSend(msg);
 		// Send the email
-		if err := n.DialAndSend(msg); err != nil {
-			println(err.Error())
-		}
+		// if err :=  err != nil {
+		// 	println(err.Error())
+		// }
 
 	}
 }
