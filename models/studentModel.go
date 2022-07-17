@@ -20,6 +20,6 @@ type Student struct {
 	User_type       *string `json:"user_type" validate:"required,eq=student|eq=mentor"`
 	Current_profile string  `json:"current_profile"`
 	University      *string `json:"university"`
-	Course_rated    *int
+	Course_rated    int
 	Websites        map[string]string `json:"websites"`
 }

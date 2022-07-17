@@ -224,7 +224,7 @@ func RateCourse() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 			return
 		}
-		*student.Course_rated = *student.Course_rated + 1
+		student.Course_rated = student.Course_rated + 1
 		err = userCollection.FindOneAndUpdate(ctx, bson.M{"user_id": rating.User_ID}, bson.M{"$set": student}).Decode(&student)
 		defer cancel()
 		if err != nil {
@@ -286,7 +286,7 @@ func ContactUs() gin.HandlerFunc {
 		msg.SetBody("text/html", body)
 
 		n := gomail.NewDialer("smtp.gmail.com", 587, "techpal.guidance@gmail.com", "osijygroequycuww")
-		n.DialAndSend(msg);
+		n.DialAndSend(msg)
 		// Send the email
 		// if err :=  err != nil {
 		// 	println(err.Error())
