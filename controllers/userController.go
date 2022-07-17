@@ -273,7 +273,7 @@ func ContactUs() gin.HandlerFunc {
 		}
 
 		subject := "Contact Us Form"
-		body := "First Name:<br>" + contactus.First_name + "Last Name:<br>" + contactus.Last_name + "<br><br>Email:<br>" + contactus.Email + "<br><br>Message:<br>" + contactus.Message
+		body := "First Name:<br>" + *contactus.First_name + "Last Name:<br>" + *contactus.Last_name + "<br><br>Email:<br>" + *contactus.Email + "<br><br>Message:<br>" + *contactus.Message
 
 		msg := gomail.NewMessage()
 		msg.SetHeader("From", "techpal.guidance@gmail.com")
