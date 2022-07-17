@@ -32,5 +32,6 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.GET("api/leadershipboard/:track_id", controller.LeadershipBoard())
 	incomingRoutes.POST("api/deletecourse", controller.DeleteCourse())
 	incomingRoutes.POST("api/rate", controller.RateCourse())
+	incomingRoutes.POST("api/contact", controller.ContactUs())
 
 }
