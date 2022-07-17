@@ -162,7 +162,7 @@ func Signup() gin.HandlerFunc {
 		var tempPass = string(password)
 		user.Password = &tempPass
 
-		*user.Course_rated = 0
+		user.Course_rated = 0
 
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error Occurred"})
