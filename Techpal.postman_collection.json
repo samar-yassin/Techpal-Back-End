@@ -1,0 +1,934 @@
+{
+	"info": {
+		"_postman_id": "fdd61e01-69a9-45c2-b50f-b004cf7cf773",
+		"name": "Techpal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17521473"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\",\r\n    \"password\":\"4aOvomj3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"aaaa\",\r\n    \"email\":\"a2akaa@test.com\",\r\n    \"password\":\"4aOvomj3\",\r\n    \"user_type\":\"student\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/signup",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "applymentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"tk\",\r\n    \"email\":\"tnew@test.com\",\r\n    \"calendly_id\": \"id\",\r\n    \"resume\":\"http://link\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/applymentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"applymentor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "add track",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/addTrack",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"addTrack"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add skill",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/addskill/javascript",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"addskill",
+								"javascript"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all skills",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"color1\":\"432\",\r\n    \"color2\":\"fgdg\",\r\n    \"skills\":{\"skill1\":342,\"skill2\":324}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getallskills",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getallskills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tracks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getalltracks",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getalltracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accept mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"samar.ashraf.yassin@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/acceptmentor",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"acceptmentor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"i don't like him\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/reportmentor/email@email.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"reportmentor",
+								"email@email.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete track",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"track_id\":\"623e1fe70751b7d8f1eec7f4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/deletetrack",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"deletetrack"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "student",
+			"item": [
+				{
+					"name": "get current profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getcurrentprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getcurrentprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{local}}/api/getallprofiles",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"getallprofiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"track_id\":\"62c2461ed9e0f15fb31936d8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/createprofile/62cf572f2e63632734eb66ad",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"createprofile",
+								"62cf572f2e63632734eb66ad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "switch profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/switchprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"switchprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"624122297d7b31fdff9ab32f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{local}}/api/deleteprofile/$user_id$",
+							"protocol": "http",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"api",
+								"deleteprofile",
+								"$user_id$"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mark as completed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"62cf57ef2e63632734eb66af\",\r\n\t\"course_id\" : \"62cf49417510c13118c1e0bb\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/markcompleted",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"markcompleted"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enroll course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"profile_id\":\"62cf57ef2e63632734eb66af\",\r\n    \"user_id\":\"62cf572f2e63632734eb66ad\",\r\n\t\"course_id\" : \"62cf49417510c13118c1e0bb\",\r\n    \"completed\" : false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/enroll",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enroll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add resume",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"template\" : \"1\",\r\n    \"profile_id\": \"62c37010fa0b53dee64d80c0\",\r\n    \"leftorder\": [{\"name\":\"n\",\"hide\":true,\"data\":[]},{\"name\":\"about\",\"hide\":false,\"data\":[\"data\",\"data\"]}],\r\n    \"rightorder\": [{\"name\":\"n\",\"hide\":true,\"data\":[\"section1,hhhh,bold$\", \"aaa\"]}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/addresume",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"addresume"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get resume",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getresume/62c37010fa0b53dee64d80c0",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getresume",
+								"62c37010fa0b53dee64d80c0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update resume",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"template\" : \"2\",\r\n    \"leftorder\": [{\"name\":\"a\",\"hide\":false,\"data\":[]},{\"name\":\"about\",\"hide\":true,\"data\":[\"data\",\"data\"]}],\r\n    \"rightorder\": [{\"name\":\"x\",\"hide\":true,\"data\":[\"section1,hhhh,bold$\", \"aaa\"]}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updateresume/62c37010fa0b53dee64d80c0",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updateresume",
+								"62c37010fa0b53dee64d80c0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\":\"62731747f166a45c475dbb9a\",\r\n    \"course_id\":\"62cf49557510c13118c1e0d4\",\r\n    \"rating\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/rate",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"rate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:81/api/getuser/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"getuser",
+								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"phone\":\"123\",\r\n    \"address\":\"\",\r\n    \"university\":\"helwan\",\r\n    \"websites\":{\"linkedin\":\"http://linkedin\",\"github\":\"http://github\"}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatestudent/62731747f166a45c475dbb9a",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatestudent",
+								"62731747f166a45c475dbb9a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update mentor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\":\"user\",\r\n    \"email\":\"te11@test.com\",\r\n    \"calendly_id\":\"http:/id\",\r\n    \"about\":\"I'm cool gedan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/updatementor/62733d6a67fcd86b69cf7c30",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"updatementor",
+								"62733d6a67fcd86b69cf7c30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\":\"111\",\r\n    \"new_password\":\"44\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:81/api/changepassword/62770916796634716862c25d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "81",
+							"path": [
+								"api",
+								"changepassword",
+								"62770916796634716862c25d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getallsessions",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getallsessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getenrolledcourses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/api/getenrolledcourses/62cf572f2e63632734eb66ad",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"getenrolledcourses",
+								"62cf572f2e63632734eb66ad"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mentor",
+			"item": [
+				{
+					"name": "session",
+					"item": [
+						{
+							"name": "addSession",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"session_name\":\"how to not be hecker\",\r\n    \"date\":\"12/12/1212\",\r\n    \"time\":\"12:12\",\r\n    \"meeting_link\":\"http://link.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/addsession/13",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"addsession",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all sessions for mentor",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/getallsessions/13",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"getallsessions",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "remove session",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/removesession/62ca3aec75527623c24c25fd",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"removesession",
+										"62ca3aec75527623c24c25fd"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "164.90.149.69:3000"
+		},
+		{
+			"key": "local",
+			"value": "localhost:8080"
+		}
+	]
+}
